@@ -108,7 +108,22 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
+
+
+#exa | eza depending on system and version
+alias ls='eza'
 alias ll='ls -lrta'
+
+#bat  -- sometimes batcat based ond the system/version
+alias cat='bat' 
+
+#fzf
+source <(fzf --zsh)
+
+#rg
+alias grep='rg'
+
+#nvim
 alias vim='nvim'
 
 bindkey "^[[H" beginning-of-line
