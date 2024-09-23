@@ -17,7 +17,9 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 #
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+
+#ZSH_THEME="powerlevel10k/powerlevel10k"
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -69,7 +71,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
-
+#
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
@@ -79,7 +81,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
+
+#plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -116,34 +119,51 @@ bindkey "^[[F" end-of-line
 
 
 #wget
-function _wget() { curl "${1}" -o $(basename "${1}") ; };
+#function _wget() { curl "${1}" -o $(basename "${1}") ; };
 alias wget='_wget'
 
 #chromium
 alias chromium="/Applications/Chromium.app/Contents/MacOS/Chromium";
 alias chromium-browser="/Applications/Chromium.app/Contents/MacOS/Chromium";
 
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-export PUPPETEER_EXECUTABLE_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium"
+#export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+#export PUPPETEER_EXECUTABLE_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium"
+
+
+
+#lsd replace ls
+
+
+#if [[ -n `lsd` ]]; then
+   alias ls='lsd'
+#end
+
+
+#bat replace cat
+alias cat='bat'
+
 
 
 #node
 #:export PATH=$PATH:/Users/pat/Workspace/NODE/node-v20.11.1-darwin-arm64/bin
 
 #flutter and dart
-export PATH=$PATH:/Users/pat/Workspace/SDK/flutter/bin
+#export PATH=$PATH:/Users/pat/Workspace/SDK/flutter/bin
 
 #melos
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
+#zoxide and batcat
+#
+export PATH="$PATH":"$HOME/.local/bin"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 #[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 #[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
