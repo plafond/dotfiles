@@ -206,6 +206,9 @@ vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
 -- nvim-tree
 vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = '[e]xplorer (FileTree)' }) -- toggle file explorer
 
+--neorg
+vim.keymap.set('n', '<leader>nw', ':Neorg workspace', { desc = '[n]eorg [w]orkspace' })
+
 --copilot
 --vim.keymap.set({ 'n', 'i' }, '<C-c>h', 'copilot#Help()', { desc = '[c]opilot [h]elp' })
 -- copilot next, previous and accept
