@@ -16,7 +16,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 #
-# ZSH_THEME="robbyrussell"
+ ZSH_THEME="robbyrussell"
 
 #ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -82,8 +82,13 @@ export ZSH="$HOME/.oh-my-zsh"
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
 
-#plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
 source $ZSH/oh-my-zsh.sh
+
+setopt histignorealldups sharehistory
+HISTSIZE=100000
+SAVEHIST=100000
+HISTFILE=~/.zsh_history
 
 # User configuration
 
@@ -111,8 +116,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-alias ll='ls -lrta'
+alias ll='ls -lra'
+alias la='eza --long --icons --git --all'
 alias vim='nvim'
+alias v='nvim'
+
+#
+alias lt='eza --long --tree --icons --git'
 
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
@@ -123,8 +133,8 @@ bindkey "^[[F" end-of-line
 alias wget='_wget'
 
 #chromium
-alias chromium="/Applications/Chromium.app/Contents/MacOS/Chromium";
-alias chromium-browser="/Applications/Chromium.app/Contents/MacOS/Chromium";
+#alias chromium="/Applications/Chromium.app/Contents/MacOS/Chromium";
+#alias chromium-browser="/Applications/Chromium.app/Contents/MacOS/Chromium";
 
 #export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 #export PUPPETEER_EXECUTABLE_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium"
@@ -135,13 +145,16 @@ alias chromium-browser="/Applications/Chromium.app/Contents/MacOS/Chromium";
 
 
 #if [[ -n `lsd` ]]; then
-   alias ls='lsd'
+   alias ls='eza'
 #end
 
 
 #bat replace cat
-alias cat='bat'
+alias cat='batcat'
 
+
+#nvim
+export PATH="$PATH:/opt/nvim/bin"
 
 
 #node
@@ -154,14 +167,16 @@ alias cat='bat'
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 #zoxide and batcat
+eval "$(zoxide init zsh)"
+
 #
 export PATH="$PATH":"$HOME/.local/bin"
 
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-#[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-#[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 

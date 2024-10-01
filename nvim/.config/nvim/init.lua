@@ -317,29 +317,31 @@ require('lazy').setup({
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
+      local wk = require 'which-key'
+      wk.setup()
+      wk.add {
 
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>g'] = { name = '[g]it Telescope menu', _ = 'which_key_ignore' },
+        -- Document existing key chains
 
-        --Toggle Term
-        t = {
-          name = 'Terminal',
-          n = { '<cmd>lua _NODE_TOGGLE()<cr>', 'Node' }, -- Node Terminal
-          t = { '<cmd>lua _LAZYGIT_TOGGLE()<cr>', 'Git' }, -- (Optional) Htop, If you have htop in linux
-          p = { '<cmd>lua _PYTHON_TOGGLE()<cr>', 'Python' }, -- Python Terminal
-          f = { '<cmd>ToggleTerm direction=float<cr>', 'Float' }, -- Floating Terminal
-
-          -- Play with size according to your needs.
-          h = { '<cmd>ToggleTerm size=10 direction=horizontal<cr>', 'Horizontal' }, -- Horizontal Terminal,
-          v = { '<cmd>ToggleTerm size=80 direction=vertical<cr>', 'Vertical' }, -- Vertical Terminal
-        },
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>c_', hidden = true },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>d_', hidden = true },
+        { '<leader>g', group = '[g]it Telescope menu' },
+        { '<leader>g_', hidden = true },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>r_', hidden = true },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>s_', hidden = true },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>w_', hidden = true },
+        { 't', group = 'Terminal' },
+        { 'tf', '<cmd>ToggleTerm direction=float<cr>', desc = 'Float' },
+        { 'th', '<cmd>ToggleTerm size=10 direction=horizontal<cr>', desc = 'Horizontal' },
+        { 'tn', '<cmd>lua _NODE_TOGGLE()<cr>', desc = 'Node' },
+        { 'tp', '<cmd>lua _PYTHON_TOGGLE()<cr>', desc = 'Python' },
+        { 'tt', '<cmd>lua _LAZYGIT_TOGGLE()<cr>', desc = 'Git' },
+        { 'tv', '<cmd>ToggleTerm size=80 direction=vertical<cr>', desc = 'Vertical' },
       }
     end,
   },
@@ -653,7 +655,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        tsserver = {},
+        -- tsserver = {},
         --
 
         lua_ls = {
@@ -907,7 +909,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'dockerfile', 'javascript', 'typescript', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'dockerfile', 'javascript', 'typescript', 'html', 'lua', 'markdown', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = { enable = true },
@@ -925,6 +927,44 @@ require('lazy').setup({
       --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    end,
+  },
+
+  -- neorg
+  {
+    'nvim-neorg/neorg',
+    lazy = false,
+    build = ':Neorg sync-parsers',
+    version = '*',
+    config = function()
+      require('neorg').setup {
+        load = {
+          ['core.defaults'] = {},
+          ['core.concealer'] = {},
+          ['core.tangle'] = {
+            config = { tangle_on_write = true },
+          },
+          ['core.dirman'] = {
+            config = {
+              workspaces = {
+                notes = '~/notes',
+                dotfiles = '~/dotfiles/',
+              },
+              default_workspace = 'notes',
+            },
+          },
+        },
+      }
+
+      vim.wo.foldlevel = 99
+      vim.wo.conceallevel = 2
+    end,
+  },
+
+  {
+    'folke/tokyonight.nvim',
+    config = function(_, _)
+      vim.cmd.colorscheme 'tokyonight-storm'
     end,
   },
 
