@@ -1,0 +1,77 @@
+@document.meta
+tangle: [
+  languages: { 
+    ./README.md
+    ./install-utils.sh
+  }
+  delimiter: heading
+  scope: all
+]
+@end
+
+@code markdown
+  
+  # Setup Dotfiles, Shell, Terminal, test22iei22, etc..
+
+- install gnu stow
+@end
+  @code sh
+    sudo apt install stow
+  @end 
+
+
+@code markdown
+- install zsh and oh-my-zsh
+@end 
+@code sh
+sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+  @end
+
+@code sh
+# install nerd fonts (linux)
+wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
+&& cd ~/.local/share/fonts \
+&& unzip JetBrainsMono.zip \
+&& rm JetBrainsMono.zip \
+&& fc-cache -fv
+@end
+
+# install nvim, tmux, zsh (linux), tilda
+@code sh
+sudo apt install nvim, tmux, zsh, tilda
+@end
+
+# clone repo
+
+@code sh
+create directory into 
+!-- mkdir ${HOME}/dotfiles
+
+git clone https://github.com/plafond/dotfiles ${HOME}
+@end
+
+
+# load package that map to directories under ${HOME}/dotfiles
+`stow nvim`
+`stow tmux`
+`stow zsh`
+
+
+# install cli tools
+- fzf
+- eza (or lsd)
+- bat
+- rg
+- zoxide ( or z)
+- tldr
+`sudo apt install bat fzf ripgrep` 
+ 
+`sudo apt install bacula-console-qt`
+`curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh`
+
+
+# install (a) tiling window manager
+- i3 (+ polybar/dmenu/rofi)
+- pop-os shell (with gnome)
+- qtile
+
