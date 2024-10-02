@@ -51,7 +51,7 @@ SAVEHIST=100000
 @end
 
 
-* Custum Aliases
+* Custom Aliases
 
 @code properties
 alias ll='ls -lra'
@@ -81,8 +81,7 @@ alias cat='batcat'
 
 @end
 
-* Custom PATH 
-
+* Custom PATH + start zoxide for zsh
 @code properties
 #nvim
   export PATH="$PATH:/opt/nvim/bin"

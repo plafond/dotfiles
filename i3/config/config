@@ -43,6 +43,7 @@ floating_modifier $mod
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec kitty
+bindsym $mod+b exec brave
 
 # kill focused window
 bindsym $mod+Shift+quotedbl kill
@@ -184,7 +185,7 @@ bindsym $mod+p mode "resize"
 #switch keymapsndexec setxkbmap -layout us -variant dvorak
 bindsym $mod+Ctrl+Shift+F10 exec setxkbmap -option "caps:swapescape"
 bindsym $mod+Ctrl+Shift+F11 exec setxkbmap us 
-#-layout us -variant eng
+#-layout us -variant eng~
 bindsym $mod+Ctrl+Shift+F12 exec setxkbmap dvorak
 #-layout us -variant dvorak
 #exec setxkbmap -option "caps:swapescape"
@@ -217,6 +218,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 exec_always sleep 1 && feh --bg-scale --no-xinerama $wallpaper
 
+exec_always sleep 1 && tilda 
 
 
 #bar {
