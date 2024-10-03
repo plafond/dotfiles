@@ -1,22 +1,3 @@
-@document.meta
-tangle: ./sway/.config/sway/config
-@end
-
-* SWAY
-
-** dependencies
-   install wofi, waybar, brave, kitty, wlr-randr
-
-  `sudo apt install wofi, waybar, brave, kitty`
-
- * install sway
-  `sudo apt install sway`
-
- * sway config
-  generate from below into config file - use stow to put at ./config/sway/config
-
-#tangle
-@code lua
 # +---------------------------+
 # | SwayWM Configuration file |
 # +---------------------------+
@@ -262,5 +243,3 @@ xwayland disable
 # Status Bar:
 #
 bar swaybar_command waybar
-
-@end

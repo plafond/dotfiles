@@ -2,7 +2,6 @@
 tangle: [
   languages: { 
     ./README.md
-    ./install-utils.sh
   }
   delimiter: heading
   scope: all
@@ -14,41 +13,28 @@ tangle: [
   # Setup Dotfiles, Shell, Terminal, test22iei22, etc..
 
 - install gnu stow
-@end
-  @code sh
-    sudo apt install stow
-  @end 
+  `sudo apt install stow`
 
 
-@code markdown
 - install zsh and oh-my-zsh
-@end 
-@code sh
-sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-  @end
+  `sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"`
 
-@code sh
-# install nerd fonts (linux)
-wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
+  # install nerd fonts (linux)
+`wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
 && cd ~/.local/share/fonts \
 && unzip JetBrainsMono.zip \
 && rm JetBrainsMono.zip \
-&& fc-cache -fv
-@end
+&& fc-cache -fv`
+
 
 # install nvim, tmux, zsh (linux), tilda
-@code sh
-sudo apt install nvim, tmux, zsh, tilda
-@end
+`sudo apt install nvim, tmux, zsh, tilda`
 
 # clone repo
 
-@code sh
 create directory into 
 !-- mkdir ${HOME}/dotfiles
-
-git clone https://github.com/plafond/dotfiles ${HOME}
-@end
+`git clone https://github.com/plafond/dotfiles ${HOME}`
 
 
 # load package that map to directories under ${HOME}/dotfiles
@@ -56,6 +42,7 @@ git clone https://github.com/plafond/dotfiles ${HOME}
 `stow tmux`
 `stow zsh`
 
+@end
 
 # install cli tools
 - fzf
@@ -64,6 +51,7 @@ git clone https://github.com/plafond/dotfiles ${HOME}
 - rg
 - zoxide ( or z)
 - tldr
+
 `sudo apt install bat fzf ripgrep` 
  
 `sudo apt install bacula-console-qt`
