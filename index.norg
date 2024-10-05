@@ -3,8 +3,12 @@
 
 * Readme {:README:}
   Install stow + clone dotfiles
-* ZSH + OH ZSH {:zsh:}[ZSH + OH ZSH ]
+* ZSH + OH ZSH {:zsh:}
+* [Alacritty]{:alacritty:}
+* [i3]{:i3:} + [Polybar]{:polybar:}
 * [SWAY]{:sway:}
+
+* [Conky]{:conky:}
 
 
 

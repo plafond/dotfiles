@@ -19,6 +19,9 @@ fi
 * OH MY ZSH
 ** set home location
 ** set theme
+** Install Plugins
+`git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions`
+`git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting`
 ** load plugins 
 ** load OH MY ZSH
 
@@ -75,9 +78,9 @@ bindkey "^[[F" end-of-line
    alias ls='eza'
 #end
 
-
+  ## sometimes batcat - depends on OS/distro
 #bat replace cat
-alias cat='batcat'
+  alias cat='bat'
 
 @end
 
