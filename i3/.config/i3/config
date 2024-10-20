@@ -3,8 +3,36 @@
    # font pango:monospace 8
    font pango:MesloLGS Nerd Font Mono Bold 14
 
+
+
 # remove window decoration
-default_border none
+   default_border pixel 4
+   hide_edge_borders smart
+
+   # Configure border style <normal|1pixel|pixel xx|none|pixel>
+new_window pixel 5
+new_float normal
+   default_floating_border pixel 5
+
+# Hide borders
+   hide_edge_borders smart
+
+# remove window decoration
+   # default_border none
+
+# window gapps
+gaps inner 4
+   gaps outer 6
+
+
+# Theme colors
+# class                   border  backgr. text    indic.  child_border
+   client.focused          #ffffff #992222 #ffffff #2e9ef4
+  client.focused_inactive #333333 #8338ec #ffffff #484e50
+      client.unfocused        #333333 #000000 #bbbbbb #292d2e
+     client.urgent           #2f343a #900000 #ffffff #900000
+  client.placeholder      #F9FAF9 #061229 #FFFFFF #061229
+   client.background       #00000000
 
 
 # mod key and other key bindings
@@ -12,7 +40,6 @@ set $mod Mod4
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-
 
 #######
 # APPS
@@ -36,7 +63,7 @@ bindsym $mod+Shift+quotedbl kill
 # start dmenu / rofi (a program launcher)
 bindsym $mod+e exec dmenu_run
 bindsym $mod+Shift+Return exec rofi -show drun
-    bindsym $mod+Tab exec rofi -show window
+bindsym $mod+Tab exec rofi -show window
 
 
 ##### FOR LAPTOP    
@@ -75,12 +102,6 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# resize window    
-    bindsym $mod+Ctrl+Left resize grow left 
-    bindsym $mod+Ctrl+Down resize grow down
-    bindsym $mod+Ctrl+Up resize grow up
-    bindsym $mod+Ctrl+Right resize grow right
-
 # split in horizontal orientation
 bindsym $mod+d split h
 
@@ -109,16 +130,16 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -149,31 +170,96 @@ bindsym $mod+Shift+J reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+P restart
 
+# lock system
+    # bindsym $mod+Shift+L exec "loginctl lock-session"
+
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+    bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+
+    #set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+
+# Modes
+#######################################
+# set shut down, restart and locking features
+# ⇒ type `$mod+Shift+Delete` then either `e`, `r` or `s`
+mode "$mode_system" {
+    bindsym e  exec --no-startup-id i3-msg exit
+    bindsym r  exec --no-startup-id systemctl reboot
+    bindsym o  exec --no-startup-id systemctl poweroff
+
+    #bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+
+    # exit system mode with "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+    set $mode_system (e)xit, (r)eboot, (off) 
+    #    (s)uspsend, (h)ibernate, (o)ff
+bindsym $mod+Shift+Delete   mode "$mode_system"
+
+# lock the screens with a black color background
+    bindsym $mod+Shift+L    $exec i3lock -c 000000
+
+
+# resize with smaller steps to get more control
+mode "resize" {
+        bindsym Left resize shrink width 2 px or 2 ppt
+        bindsym Up resize grow height 2 px or 2 ppt
+        bindsym Down resize shrink height 2 px or 2 ppt
+       bindsym Right resize grow width 2 px or 2 ppt
+
+        # exit resize mode: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+    bindsym $mod+Shift+R mode "resize"
+
+set $scratchpad-size             1920 1060
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+    # There is an additional keybinding to allow a floating window to be toggled
+# (recovered as a normal window).
+# keycode 179 = F10 button
+# (not the actual F10 key, but same button on my laptop with default function!)
+mode "Scratchpad"{
+  bindcode 96              scratchpad show, resize set 1920 1060, move position center; scratchpad show, resize set 1920 1060, move position center
+  bindsym $mod+Shift+space  floating toggle; mode "default"
+  bindsym $mod+Escape       kill; mode "default"
+  bindsym Escape            scratchpad show; mode "default"
+}
+    bindcode 96 mode "Scratchpad"; scratchpad show, resize set 1920 1060, move position center
+
+# Move the currently focused window to the scratchpad.
+# First, we toggle floating mode and we resize and position the window to make sure
+# it will appear correctly when showing it for the first time.
+bindsym $mod+minus    floating toggle; resize set $scratchpad-size, move position center; move scratchpad
 
 
 
-
-### LAPTOP
-#eDP-1 //main mon
-#DP-1 //big above
-#HDMI-2 //big right, rotate right
+   ### LAPTOP
+  #eDP-1 //main mon
+  #DP-1 //big above
+  #HDMI-2 //big right, rotate right
 
 
   ## WORKSTATION
   # DisplayPort-0
   # DP-3  
   workspace $ws1 output DisplayPort-0
-workspace $ws2 output DisplayPort-0
-workspace $ws3 output DisplayPort-0
-workspace $ws4 output DisplayPort-0
-workspace $ws5 output DisplayPort-0
-workspace $ws6 output DisplayPort-0
-workspace $ws7 output DisplayPort-0
-workspace $ws8 output DisplayPort-0
-workspace $ws9 output DisplayPort-3
-workspace $ws10 output DisplayPort-3
+  workspace $ws2 output DisplayPort-0
+  workspace $ws3 output DisplayPort-0
+  workspace $ws4 output DisplayPort-0
+  workspace $ws5 output DisplayPort-0
+  workspace $ws6 output DisplayPort-0
+  workspace $ws7 output DisplayPort-0
+  workspace $ws8 output DisplayPort-3
+  workspace $ws9 output DisplayPort-3
+  workspace $ws10 output DisplayPort-3
+
+   #exec --no-startup-id "i3-msg 'workspace $ws8; append_layout ~/.config/i3/w8_layout.json'"
+
 
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
@@ -185,13 +271,37 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 exec --no-startup-id picom
-
-exec_always killall feh
-exec_always sleep 1
-exec_always --no-startup-id feh --bg-fill ~/wallpapers/52534406448_3909dd5a79_o.png 
 exec --no-startup-id ~/.screenlayout/default.sh
 
+   exec_always killall feh 
+   exec_always sleep 1 
+   exec_always feh --bg-scale --no-xinerama ~/wallpapers/JWST/52534406448_3909dd5a79_o.png
+   #~/wallpapers/JWST/52534406448_3909dd5a79_o.png 
+   
+
 # kill any hanging polybar processes
-exec_always killall polybar 
-exec_always sleep 1
-exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
+   exec_always killall polybar && sleep 1 
+  exec_always ~/.config/polybar/launch_polybar.sh
+#   exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# restart conky
+   exec_always --no-startup-id ~/.config/conky/start.sh 
+
+# stat exaclidraw
+## depends on docker installed, enabled at startup and excalidraw image pulled
+   exec docker run --rm -dit --name excalidraw -p 5000:80 excalidraw/excalidraw:latest    
+
+   #exec brave -new-window http://localhost:5000
+   #exec firefox --class Excalidraw -P DOM_ONLY --no-remote http://localhost:5000
+   ##  -- need legacy toolkit enabled + profile created + css file in <profile>/chrome/userChrome.css
+   exec zen-browser --class Excalidraw -P Excalidraw --no-remote http://localhost:5000
+   exec zen-browser --class Nugs -P Nugs --no-remote https://play.nugs.net
+
+   exec sleep 2
+
+   for_window [class="Excalidraw"]     move $ws5
+
+   for_window [class="Nugs"]           floating enable
+   for_window [class="Nugs"]           move scratchpad
+   for_window [class="Nugs"]           resize set $scratchpad-size
+

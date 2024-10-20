@@ -861,8 +861,8 @@ require('lazy').setup({
 
   {
     'norcalli/nvim-colorizer.lua',
-    config = function() 
-       require('colorizer').setup()
+    config = function()
+      require('colorizer').setup()
     end,
   },
   {
@@ -1002,16 +1002,16 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>m', mark.add_file, { desc = 'Harpoon Add [m]ark' })
       vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu, { desc = 'Harpoon [E]xplorer' })
 
-      vim.keymap.set('n', '<C-M-h>', function()
+      vim.keymap.set('n', '<C-h>', function()
         ui.nav_file(1)
       end)
-      vim.keymap.set('n', '<C-M-t>', function()
+      vim.keymap.set('n', '<C-t>', function()
         ui.nav_file(2)
       end)
-      vim.keymap.set('n', '<C-˜>', function()
+      vim.keymap.set('n', '<C-n˜>', function()
         ui.nav_file(3)
       end)
-      vim.keymap.set('n', '<C-ß>', function()
+      vim.keymap.set('n', '<C-s>', function()
         ui.nav_file(4)
       end)
     end,

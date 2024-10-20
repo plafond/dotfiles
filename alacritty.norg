@@ -30,6 +30,10 @@ tangle: ./alacritty/.config/alacritty/alacritty.toml
     [font.normal]
     family = "MesloLGS Nerd Font Mono"
     style = "Regular"
+
+    [selection]
+    save_to_clipboard = true
+
   @end
 
 
