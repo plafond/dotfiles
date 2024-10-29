@@ -222,9 +222,9 @@ vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = '[u]ndo tree' 
 
 -- telescope git commands (not on youtube nvim video)
 vim.keymap.set('n', '<leader>gc', '<cmd>Telescope git_commits<cr>', { desc = '[g]it [c]ommits' }) -- list all git commits (use <cr> to checkout) ["gc" for git commits]
-vim.keymap.set('n', '<leader>gfc', '<cmd>Telescope git_bcommits<cr>')                             -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
-vim.keymap.set('n', '<leader>gb', '<cmd>Telescope git_branches<cr>')                              -- list git branches (use <cr> to checkout) ["gb" for git branch]
-vim.keymap.set('n', '<leader>gs', '<cmd>Telescope git_status<cr>')                                -- list current changes per file with diff preview ["gs" for git status]
+vim.keymap.set('n', '<leader>gfc', '<cmd>Telescope git_bcommits<cr>') -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
+vim.keymap.set('n', '<leader>gb', '<cmd>Telescope git_branches<cr>') -- list git branches (use <cr> to checkout) ["gb" for git branch]
+vim.keymap.set('n', '<leader>gs', '<cmd>Telescope git_status<cr>') -- list current changes per file with diff preview ["gs" for git status]
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -316,7 +316,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
@@ -326,25 +326,25 @@ require('lazy').setup({
 
         -- Document existing key chains
 
-        { '<leader>c',  group = '[C]ode' },
+        { '<leader>c', group = '[C]ode' },
         { '<leader>c_', hidden = true },
-        { '<leader>d',  group = '[D]ocument' },
+        { '<leader>d', group = '[D]ocument' },
         { '<leader>d_', hidden = true },
-        { '<leader>g',  group = '[g]it Telescope menu' },
+        { '<leader>g', group = '[g]it Telescope menu' },
         { '<leader>g_', hidden = true },
-        { '<leader>r',  group = '[R]ename' },
+        { '<leader>r', group = '[R]ename' },
         { '<leader>r_', hidden = true },
-        { '<leader>s',  group = '[S]earch' },
+        { '<leader>s', group = '[S]earch' },
         { '<leader>s_', hidden = true },
-        { '<leader>w',  group = '[W]orkspace' },
+        { '<leader>w', group = '[W]orkspace' },
         { '<leader>w_', hidden = true },
-        { 't',          group = 'Terminal' },
-        { 'tf',         '<cmd>ToggleTerm direction=float<cr>',              desc = 'Float' },
-        { 'th',         '<cmd>ToggleTerm size=10 direction=horizontal<cr>', desc = 'Horizontal' },
-        { 'tn',         '<cmd>lua _NODE_TOGGLE()<cr>',                      desc = 'Node' },
-        { 'tp',         '<cmd>lua _PYTHON_TOGGLE()<cr>',                    desc = 'Python' },
-        { 'tt',         '<cmd>lua _LAZYGIT_TOGGLE()<cr>',                   desc = 'Git' },
-        { 'tv',         '<cmd>ToggleTerm size=80 direction=vertical<cr>',   desc = 'Vertical' },
+        { 't', group = 'Terminal' },
+        { 'tf', '<cmd>ToggleTerm direction=float<cr>', desc = 'Float' },
+        { 'th', '<cmd>ToggleTerm size=10 direction=horizontal<cr>', desc = 'Horizontal' },
+        { 'tn', '<cmd>lua _NODE_TOGGLE()<cr>', desc = 'Node' },
+        { 'tp', '<cmd>lua _PYTHON_TOGGLE()<cr>', desc = 'Python' },
+        { 'tt', '<cmd>lua _LAZYGIT_TOGGLE()<cr>', desc = 'Git' },
+        { 'tv', '<cmd>ToggleTerm size=80 direction=vertical<cr>', desc = 'Vertical' },
       }
     end,
   },
@@ -427,7 +427,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -1011,7 +1011,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<C-n˜>', function()
         ui.nav_file(3)
       end)
-      vim.keymap.set('n', '<C-s>', function()
+      vim.keymap.set('n', '<C-ß>', function()
         ui.nav_file(4)
       end)
     end,
@@ -1019,8 +1019,30 @@ require('lazy').setup({
 
   {
     'theprimeagen/refactoring.nvim',
-    'mbbill/undotree',
     'github/copilot.vim',
+    'mbbill/undotree',
+    'machakann/vim-swap',
+  },
+
+  {
+    'kdheepak/lazygit.nvim',
+    lazy = true,
+    cmd = {
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    -- setting the keybinding for LazyGit with 'keys' is recommended in
+    -- order to load the plugin when the command is run for the first time
+    keys = {
+      { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
+    },
   },
 
   {
