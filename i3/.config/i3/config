@@ -294,7 +294,7 @@ exec --no-startup-id ~/.screenlayout/default.sh
    #exec brave -new-window http://localhost:5000
    #exec firefox --class Excalidraw -P DOM_ONLY --no-remote http://localhost:5000
    ##  -- need legacy toolkit enabled + profile created + css file in <profile>/chrome/userChrome.css
-   exec zen-browser --class Excalidraw -P Excalidraw --no-remote http://localhost:5000
+   exec zen-browser --class Excalidraw -P Excalidraw --no-remote http://localhost:5555
    exec zen-browser --class Nugs -P Nugs --no-remote https://play.nugs.net
 
    exec sleep 2
