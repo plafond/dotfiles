@@ -165,6 +165,9 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagn
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Rest Client
+vim.keymap.set('n', '<leader>rr', '<cmd>Rest run<cr>', { desc = 'Rest run' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -471,6 +474,7 @@ require('lazy').setup({
       -- Enable telescope extensions, if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'rest')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -872,7 +876,7 @@ require('lazy').setup({
       theme = 'gruvbox_dark',
     },
     config = function()
-      require('lualine').setup()
+      require('lualine').setup {}
     end,
   },
 
@@ -1022,6 +1026,8 @@ require('lazy').setup({
     'github/copilot.vim',
     'mbbill/undotree',
     'machakann/vim-swap',
+    'rest-nvim/tree-sitter-http',
+    'rest-nvim/rest.nvim',
   },
 
   {
