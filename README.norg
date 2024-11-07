@@ -51,6 +51,9 @@ create directory into
 - rg
 - zoxide ( or z)
 - tldr
+- lazygit
+- flameshot
+- 
 
 `sudo apt install bat fzf ripgrep` 
  

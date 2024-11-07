@@ -86,6 +86,8 @@ bindsym $mod+b exec brave
 # start file manager
 bindsym $mod+f exec dolphin
 
+# screenshot app
+bindsym $mod+p exec flameshot gui
     
 
 # kill focused window
