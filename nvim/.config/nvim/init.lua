@@ -167,6 +167,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 
 -- Rest Client
 vim.keymap.set('n', '<leader>rr', '<cmd>Rest run<cr>', { desc = 'Rest run' })
+vim.keymap.set('n', '<leader>rt', ':Rest run ', { desc = 'Rest run <name>' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
