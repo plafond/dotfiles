@@ -193,10 +193,10 @@ vim.keymap.set('n', '<M-t>', ':cprev<cr>', { desc = 'QuickFix Prev' })
 --  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<M-h>', '<C-w><C-W>h', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<M-s>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<M-t>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<M-n>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- delete single character without copying into register
 vim.keymap.set('n', 'x', '"_x')
@@ -216,8 +216,8 @@ vim.keymap.set('n', '<leader>nw', ':Neorg workspace ', { desc = '[n]eorg [w]orks
 --copilot
 --vim.keymap.set({ 'n', 'i' }, '<C-c>h', 'copilot#Help()', { desc = '[c]opilot [h]elp' })
 -- copilot next, previous and accept
-vim.keymap.set({ 'n', 'i' }, '<C-c>n', 'copilot#Next()', { expr = true, desc = 'Copilot [n]ext' })
-vim.keymap.set({ 'n', 'i' }, '<C-c>t', 'copilot#Previous()', { expr = true, desc = 'Copilot [t]revious' })
+vim.keymap.set({ 'n', 'i' }, '<C-c>n', 'Copilot#Next()', { expr = true, desc = 'Copilot [n]ext' })
+vim.keymap.set({ 'n', 'i' }, '<C-c>t', 'Copilot#Previous()', { expr = true, desc = 'Copilot [t]revious' })
 --vim.keymap.set({ 'n', 'i' }, '<C-c>t', 'copilot#Accept()', { desc = '[c]opilot accep[t]' })
 
 --
@@ -1005,18 +1005,18 @@ require('lazy').setup({
       local ui = require 'harpoon.ui'
 
       vim.keymap.set('n', '<leader>m', mark.add_file, { desc = 'Harpoon Add [m]ark' })
-      vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu, { desc = 'Harpoon [E]xplorer' })
+      vim.keymap.set('n', '<M-e>', ui.toggle_quick_menu, { desc = 'Harpoon [E]xplorer' })
 
-      vim.keymap.set('n', '<C-h>', function()
+      vim.keymap.set('n', '<M-1>', function()
         ui.nav_file(1)
       end)
-      vim.keymap.set('n', '<C-t>', function()
+      vim.keymap.set('n', '<M-2>', function()
         ui.nav_file(2)
       end)
-      vim.keymap.set('n', '<C-n˜>', function()
+      vim.keymap.set('n', '<M-3>', function()
         ui.nav_file(3)
       end)
-      vim.keymap.set('n', '<C-ß>', function()
+      vim.keymap.set('n', '<M-4>', function()
         ui.nav_file(4)
       end)
     end,
@@ -1049,6 +1049,37 @@ require('lazy').setup({
     -- order to load the plugin when the command is run for the first time
     keys = {
       { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
+    },
+  },
+
+  {
+    'javiorfo/nvim-soil',
+
+    -- Optional for puml syntax highlighting:
+    dependencies = { 'javiorfo/nvim-nyctophilia' },
+
+    lazy = true,
+    ft = 'plantuml',
+    opts = {
+      -- If you want to change default configurations
+
+      -- If you want to use Plant UML jar version instead of the install version
+      puml_jar = '/opt/plantuml/plantuml.jar',
+
+      -- If you want to customize the image showed when running this plugin
+      image = {
+        darkmode = false, -- Enable or disable darkmode
+        format = 'png', -- Choose between png or svg
+
+        -- This is a default implementation of using nsxiv to open the resultant image
+        -- Edit the string to use your preferred app to open the image (as if it were a command line)
+        -- Some examples:
+        -- return "feh " .. img
+        -- return "xdg-open " .. img
+        execute_to_open = function(img)
+          return 'feh ' .. img
+        end,
+      },
     },
   },
 
@@ -1111,10 +1142,10 @@ require('lazy').setup({
         local opts = { noremap = true }
         vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
         vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
-        vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
-        vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
-        vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
-        vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
+        vim.api.nvim_buf_set_keymap(0, 't', '<M-h>', [[<C-\><C-n><C-W>h]], opts)
+        vim.api.nvim_buf_set_keymap(0, 't', '<M-t>', [[<C-\><C-n><C-W>j]], opts)
+        vim.api.nvim_buf_set_keymap(0, 't', '<M-n>', [[<C-\><C-n><C-W>k]], opts)
+        vim.api.nvim_buf_set_keymap(0, 't', '<M-s>', [[<C-\><C-n><C-W>l]], opts)
       end
     end,
 
@@ -1141,7 +1172,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  -- require 'kickstart.plugins.indent_line'
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
