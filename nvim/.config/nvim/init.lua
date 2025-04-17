@@ -22,59 +22,59 @@
 
 What is Kickstart?
 
-  Kickstart.nvim is *not* a distribution.
+Kickstart.nvim is *not* a distribution.
 
-  Kickstart.nvim is a starting point for your own configuration.
-    The goal is that you can read every line of code, top-to-bottom, understand
-    what your configuration is doing, and modify it to suit your needs.
+Kickstart.nvim is a starting point for your own configuration.
+  The goal is that you can read every line of code, top-to-bottom, understand
+  what your configuration is doing, and modify it to suit your needs.
 
-    Once you've done that, you can start exploring, configuring and tinkering to
-    make Neovim your own! That might mean leaving kickstart just the way it is for a while
-    or immediately breaking it into modular pieces. It's up to you!
+  Once you've done that, you can start exploring, configuring and tinkering to
+  make Neovim your own! That might mean leaving kickstart just the way it is for a while
+  or immediately breaking it into modular pieces. It's up to you!
 
-    If you don't know anything about Lua, I recommend taking some time to read through
-    a guide. One possible example which will only take 10-15 minutes:
-      - https://learnxinyminutes.com/docs/lua/
+  If you don't know anything about Lua, I recommend taking some time to read through
+  a guide. One possible example which will only take 10-15 minutes:
+    - https://learnxinyminutes.com/docs/lua/
 
-    After understanding a bit more about Lua, you can use `:help lua-guide` as a
-    reference for how Neovim integrates Lua.
-    - :help lua-guide
-    - (or HTML version): https://neovim.io/doc/user/lua-guide.html
+  After understanding a bit more about Lua, you can use `:help lua-guide` as a
+  reference for how Neovim integrates Lua.
+  - :help lua-guide
+  - (or HTML version): https://neovim.io/doc/user/lua-guide.html
 
 Kickstart Guide:
 
-  TODO: The very first thing you should do is to run the command `:Tutor` in Neovim.
+TODO: The very first thing you should do is to run the command `:Tutor` in Neovim.
 
-    If you don't know what this means, type the following:
-      - <escape key>
-      - :
-      - Tutor
-      - <enter key>
+  If you don't know what this means, type the following:
+    - <escape key>
+    - :
+    - Tutor
+    - <enter key>
 
-    (If you already know how the Neovim basics, you can skip this step)
+  (If you already know how the Neovim basics, you can skip this step)
 
-  Once you've completed that, you can continue working through **AND READING** the rest
-  of the kickstart init.lua
+Once you've completed that, you can continue working through **AND READING** the rest
+of the kickstart init.lua
 
-  Next, run AND READ `:help`.
-    This will open up a help window with some basic information
-    about reading, navigating and searching the builtin help documentation.
+Next, run AND READ `:help`.
+  This will open up a help window with some basic information
+  about reading, navigating and searching the builtin help documentation.
 
-    This should be the first place you go to look when you're stuck or confused
-    with something. It's one of my favorite neovim features.
+  This should be the first place you go to look when you're stuck or confused
+  with something. It's one of my favorite neovim features.
 
-    MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
-    which is very useful when you're not sure exactly what you're looking for.
+  MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
+  which is very useful when you're not sure exactly what you're looking for.
 
-  I have left several `:help X` comments throughout the init.lua
-    These are hints about where to find more information about the relevant settings,
-    plugins or neovim features used in kickstart.
+I have left several `:help X` comments throughout the init.lua
+  These are hints about where to find more information about the relevant settings,
+  plugins or neovim features used in kickstart.
 
-   NOTE: Look for lines like this
+ NOTE: Look for lines like this
 
-    Throughout the file. These are for you, the reader, to help understand what is happening.
-    Feel free to delete them once you know what you're doing, but they should serve as a guide
-    for when you are first encountering a few different constructs in your nvim config.
+  Throughout the file. These are for you, the reader, to help understand what is happening.
+  Feel free to delete them once you know what you're doing, but they should serve as a guide
+  for when you are first encountering a few different constructs in your nvim config.
 
 If you experience any errors while trying to install kickstart, run `:checkhealth` for more info
 
@@ -162,7 +162,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+vim.keymap.set('n', '<leader>E', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Rest Client
@@ -178,10 +178,10 @@ vim.keymap.set('n', '<leader>rt', ':Rest run ', { desc = 'Rest run <name>' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- shortcuts for QuickFix list
-vim.keymap.set('n', '<M-n>', ':cnext<cr>', { desc = 'QuickFix Next' })
+vim.keymap.set('n', '<C-n>', ':cnext<cr>', { desc = 'QuickFix Next' })
 
 --
-vim.keymap.set('n', '<M-t>', ':cprev<cr>', { desc = 'QuickFix Prev' })
+vim.keymap.set('n', '<C-t>', ':cprev<cr>', { desc = 'QuickFix Prev' })
 --vim.keymap.set('n', '<S-t>', ':print ("hello")', { desc = 'QuickFix Prev' })
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -189,14 +189,26 @@ vim.keymap.set('n', '<M-t>', ':cprev<cr>', { desc = 'QuickFix Prev' })
 -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
+-- vim.keymap.set('n', 'h', '<left>')
+-- vim.keymap.set('n', 's', '<right>')
+-- vim.keymap.set('n', 't', '<up>')
+-- vim.keymap.set('n', 'n', '<down>')
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<M-h>', '<C-w><C-W>h', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<M-s>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<M-t>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<M-n>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<M-h>', '<C-w>h', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<M-s>', '<C-w>l', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<M-t>', '<C-w>j', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<M-n>', '<C-w>k', { desc = 'Move focus to the upper window' })
+
+-- vim.keymap.set('n', '<M><left>', '<C-w><C-W>h', { desc = 'Move focus to the left window' })
+-- vim.keymap.set('n', '<M><right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+-- vim.keymap.set('n', '<M><down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+-- vim.keymap.set('n', '<M><up>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+vim.keymap.set('n', '<M-T>', '<C-w>T', { desc = 'Pop Window to new [T]ab' })
+vim.keymap.set('n', '<M-N>', '<C-w>gt', { desc = 'Cycle [g]oto next [T]ab' })
 
 -- delete single character without copying into register
 vim.keymap.set('n', 'x', '"_x')
@@ -222,7 +234,7 @@ vim.keymap.set({ 'n', 'i' }, '<C-c>t', 'Copilot#Previous()', { expr = true, desc
 
 --
 ---- undotree
-vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = '[u]ndo tree' })
+vim.keymap.set('n', '<leader>U', vim.cmd.UndotreeToggle, { desc = 'Undo tree' })
 
 -- telescope git commands (not on youtube nvim video)
 vim.keymap.set('n', '<leader>gc', '<cmd>Telescope git_commits<cr>', { desc = '[g]it [c]ommits' }) -- list all git commits (use <cr> to checkout) ["gc" for git commits]
@@ -249,6 +261,10 @@ vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true 
 --nnoremap <C-S> :update<cr>
 vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:w<CR>i', { noremap = true, silent = true })
 
+vim.api.nvim_set_keymap('n', '<M-down>', ':Treewalker Down<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<M-up>', ':Treewalker Up<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<M-left>', ':Treewalker Left<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<M-right>', ':Treewalker Right<CR>', { noremap = true, silent = true })
 --inoremap <C-S> <Esc>:update<cr>gi
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -351,6 +367,77 @@ require('lazy').setup({
         { 'tv', '<cmd>ToggleTerm size=80 direction=vertical<cr>', desc = 'Vertical' },
       }
     end,
+  },
+
+  {
+    'aaronik/treewalker.nvim',
+    opts = {
+      highlight = true, -- Whether to briefly highlight the node after jumping to it
+    },
+  },
+  {
+    'folke/snacks.nvim',
+    priority = 1000,
+    lazy = false,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      animate = { enabled = true },
+      bigfile = { enabled = true },
+      --  dashboard = { enabled = true },
+      debug = { enabled = true },
+      dim = { enabled = true },
+      git = { enabled = true },
+      indent = { enabled = true },
+      input = { enabled = true },
+      lazygit = { enabled = true },
+      notifier = { enabled = true, timeout_ms = 1000 },
+      notify = { enabled = true },
+      quickfile = { enabled = true },
+      rename = { enabled = true },
+      scroll = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+      zen = { enabled = true },
+    },
+    keys = {
+      {
+        '<leader>z',
+        function()
+          Snacks.zen()
+        end,
+        desc = 'Toggle Zen Mode',
+      },
+      {
+        '<leader>Z',
+        function()
+          Snacks.zen.zoom()
+        end,
+        desc = 'Toggle Zoom',
+      },
+      {
+        '<leader>.',
+        function()
+          Snacks.scratch()
+        end,
+        desc = 'Toggle Scratch Buffer',
+      },
+      {
+        '<leader>S',
+        function()
+          Snacks.scratch.select()
+        end,
+        desc = 'Select Scratch Buffer',
+      },
+      {
+        '<leader>h',
+        function()
+          Snacks.notifier.show_history()
+        end,
+        desc = 'Notification History',
+      },
+    },
   },
 
   --https://github.com/folke/noice.nvim
@@ -974,6 +1061,8 @@ require('lazy').setup({
       vim.wo.conceallevel = 2
     end,
   },
+
+  {'ellisonleao/glow.nvim', config = true, cmd = 'Glow'},
 
   {
     'folke/tokyonight.nvim',

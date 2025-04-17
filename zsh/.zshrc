@@ -25,7 +25,7 @@ SAVEHIST=100000
   HISTFILE=~/.zsh_history
 
 
-alias ll='ls -lra'
+alias ll='ls -la -s changed'
 alias la='eza --long --icons --git --all'
 alias vim='nvim'
 alias v='nvim'
@@ -48,8 +48,9 @@ bindkey "^[[F" end-of-line
 
   ## sometimes batcat - depends on OS/distro
 #bat replace cat
-  alias cat='bat'
+  alias cat='batcat'
 
+  alias clip='xclip -sel clip'
 
 #nvim
   export PATH="$PATH:/opt/nvim/bin"
@@ -67,16 +68,31 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 #zoxide and batcat
 eval "$(zoxide init zsh)"
 
+# Set up fzf key bindings and fuzzy completion
+#source <(fzf --zsh)
+
 #
 export PATH="$PATH":"$HOME/.local/bin"
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+# [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+eval "$(pyenv virtualenv-init -)"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

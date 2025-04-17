@@ -1,28 +1,37 @@
-    import = [
-    "~/.config/alacritty/catppuccin-mocha.toml"
-    ]
+import = [
+"~/.config/alacritty/catppuccin-mocha.toml"
+]
 
-    [env]
-    TERM = "xterm-256color"
+[env]
+TERM = "xterm-256color"
 
-    [font]
-    size = 10.0
+[font]
+size = 10.0
 
-    [font.bold]
-    family = "MesloLGS Nerd Font Mono"
-    style = "Bold"
+[font.bold]
+family = "MesloLGS Nerd Font Mono"
+style = "Bold"
 
-    [font.bold_italic]
-    family = "MesloLGS Nerd Font Mono"
-    style = "Bold Italic"
-  
-    [font.italic]
-    family = "MesloLGS Nerd Font Mono"
-    style = "Italic"
+[font.bold_italic]
+family = "MesloLGS Nerd Font Mono"
+style = "Bold Italic"
 
-    [font.normal]
-    family = "MesloLGS Nerd Font Mono"
-    style = "Regular"
+[font.italic]
+family = "MesloLGS Nerd Font Mono"
+style = "Italic"
 
-    [selection]
-    save_to_clipboard = true
+[font.normal]
+family = "MesloLGS Nerd Font Mono"
+style = "Regular"
+
+[keyboard]
+bindings = [{ key= "F11", action = "ToggleFullscreen" }]
+
+
+[window]
+decorations = "None"
+opacity = 0.80
+dimensions = { columns = 140, lines = 40 }
+
+[selection]
+save_to_clipboard = true
