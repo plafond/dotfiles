@@ -5,5 +5,7 @@ echo $count
 if [ $count -eq 0 ]; then
     $1
 else
-    i3-msg "[class=$1] focus"
+    if ! i3-msg "[class=$1] focus"; then
+        i3-msg "[instance=$1] focus"
+    fi
 fi

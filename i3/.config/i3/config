@@ -69,18 +69,29 @@ bindsym $mod+e exec dmenu_run
 bindsym $mod+Shift+Return exec rofi -show drun
 bindsym $mod+Tab exec rofi -show window
 
+
 bindsym $mod+f exec  ~/.config/i3/focusOrStart.sh "Nautilus"
-bindsym $mod+g exec ~/.config/i3/focusOrStart.sh "ghostty"
+#move to workspace G instead
+#bindsym $mod+g exec ~/.config/i3/focusOrStart.sh "ghostty"
 bindsym $mod+s exec ~/.config/i3/focusOrStart.sh "Slack"
-bindsym $mod+i exec ~/.config/i3/focusOrStart.sh "Zed"
+bindsym $mod+t exec ~/.config/i3/focusOrStart.sh "Zed"
 bindsym $mod+z exec ~/.config/i3/focusOrStart.sh "zen"
 
 bindsym $mod+v exec ~/.config/i3/focusOrStart.sh "Code"
 
 bindsym $mod+c exec ~/.config/i3/focusOrStart.sh "chrome"
 bindsym $mod+b exec ~/.config/i3/focusOrStart.sh "Brave"
-#bindsym $mod+n exec ~/.config/i3/focusOrStart.sh "Notion"
-##### FOR LAPTOP    
+
+# "SkedPal"
+bindsym $mod+h exec ~/.config/i3/focusOrStart.sh "crx_gnoglfpdikbdaneajmdajhlcfijpolel" 
+# Notion
+bindsym $mod+n exec ~/.config/i3/focusOrStart.sh "crx_nkdhlohhaagddalgpiepelhmbnaaffne"
+##### FOR lAPTOP    
+bindsym Ctrl+Shift+F10 exec ~/dotfiles/scripts/startWorkApps.sh
+
+bindsym $mod+Shift+l exec ~/dotfiles/scripts/layoutsManager.sh
+
+bindsym Ctrl+Shift+F11 exec kanata --cfg ~/dotfiles/kanata/kanata.kbd
 #switch keymapsndexec setxkbmap -layout us -variant dvorak
 #bindsym $mod+Ctrl+Shift+F10 exec setxkbmap -option "caps:swapescape"
 bindsym $mod+Ctrl+Shift+F11 exec setxkbmap us 
@@ -182,6 +193,13 @@ set $ws15 "M"
 set $ws16 "Z"
 set $ws17 "S"
 set $ws18 "H"
+set $wsG "G"
+
+
+bindsym $mod+g workspace $wsG; exec ~/.config/i3/focusOrStart.sh "ghostty"
+bindsym $mod+Shift+g move container to workspace $wsG; mode "default"
+
+
 
 set $mode_ws "extra-workspaces"
 mode $mode_ws {
@@ -208,6 +226,9 @@ mode $mode_ws {
 
     bindsym h workspace $ws18; mode "default"
     bindsym Shift+h move container to workspace $ws18; mode "default"
+
+    bindsym $mod+g; exec ~/.config/i3/focusOrStart.sh "ghostty"
+
 
     # exit system mode with "Enter" or "Escape"
     bindsym Return mode "default"
@@ -238,6 +259,10 @@ for_window [title="Notion*" instance="crx_gfjiemlnmgajmgihefeppogphdpjchab"] flo
 
 
 for_window [class="Slack" instance="slack"] move container to workspace $ws10
+
+
+for_window [title="Skedpal*" instance="crx_gnoglfpdikbdaneajmdajhlcfijpolel"] move container to workspace $ws10
+for_window [title="Skedpal*"] floating disable
 
 #for_window [title="AWS *" class="Google-chrome"] move container to workspace $ws11
 for_window [class="Steam"] move container to workspace $ws17
@@ -308,7 +333,7 @@ mode "system_opts" {
 bindsym $mod+Shift+Delete  mode "system_opts"
 
 # lock the screens with a black color background
-    bindsym $mod+Shift+L   exec i3lock -c 000000
+#    bindsym $mod+Shift+L   exec i3lock -c 000000
 
 
 # resize with smaller steps to get more control
@@ -318,6 +343,12 @@ mode "resize" {
         bindsym Down resize shrink height 2 px or 2 ppt
        bindsym Right resize grow width 2 px or 2 ppt
 
+       bindsym v resize grow height 30 px or 30 ppt
+       bindsym w resize grow width  30 px or 30 ppt
+       bindsym Shift+b resize shrink width  30 px or 30 ppt
+       bindsym Shift+w resize shrink height 30 px or 30 ppt
+
+       bindsym r floating toggle, floating toggle
         # exit resize mode: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -345,9 +376,11 @@ mode "Scratchpad"{
 bindsym $mod+minus    floating toggle; resize set $scratchpad-size, move position center; move scratchpad
 
 
-exec_always --no-startup-id autorandr --change
+exec_always --no-startup-id ~/dotfiles/scripts/autorandr-update/create_Xresources_entry.sh
+exec_always --no-startup-id ~/dotfiles/scripts/autorandr-update/create_monitor_templates.sh
+exec_always --no-startup-id ~/dotfiles/scripts/autorandr-update/autorandr_profile_selector.sh
 
-exec sleep 2
+exec_always sleep 5
 
    ### LAPTOP
   #eDP-1 //main mon
@@ -360,9 +393,23 @@ exec sleep 2
    ## DisplayPort-1 (2nd thunderbolt)
    ## HDMI-A-0  (HDMI Port)
 
+
   set $s1 "eDP"
-  set $s2 "DisplayPort-7"
-  set $s3 "DisplayPort-4"
+set_from_resource $s2 DISPLAY_H "DisplayPort-8"
+
+set_from_resource $s3 DISPLAY_V "DisplayPort-2"
+#set $s2 < exec ~/dotfiles/scripts/autorandr-update/get_monitor_value.sh -H
+  set $s4 "DisplayPort-1"
+   #set $s2 "DisplayPort-7"
+# set $s3 "DisplayPort-3"
+
+exec_always echo "Monitor 1: $s1" > ~/dotfiles/scripts/autorandr-update/monitor_log.txt
+exec_always echo "Monitor 2: $s2" >> ~/dotfiles/scripts/autorandr-update/monitor_log.txt
+exec_always echo "Monitor 3: $s3" >> ~/dotfiles/scripts/autorandr-update/monitor_log.txt
+exec_always echo "Monitor 4: $s4" >> ~/dotfiles/scripts/autorandr-update/monitor_log.txt
+
+ # set $s3 < exec ~/dotfiles/scripts/autorandr-update/get_monitor_value.sh -V
+
   
   workspace $ws1 output $s1
   workspace $ws2 output $s1
@@ -375,6 +422,7 @@ exec sleep 2
    workspace $ws9 output $s3
    workspace $ws10 output $s3
 
+  workspace $wsG output $s4
   # workspace $ws3 output DisplayPort-5
   # workspace $ws4 output DisplayPort-5 
   # workspace $ws5 output DisplayPort-5
@@ -392,7 +440,7 @@ exec sleep 2
   # workspace $ws2 output eDP
   # workspace $ws3 output DisplayPort-1
   # workspace $ws4 output DisplayPort-1
-  # workspace $ws5 output DisplayPort-1
+  # workspace $ws5 output DisplayPort-r
   # workspace $ws6 output DisplayPort-1
   # workspace $ws7 output DisplayPort-1
   # workspace $ws8 output HDMI-A-0
@@ -424,7 +472,9 @@ exec --no-startup-id picom
 
 #    exec_always killall feh 
 #    exec_always sleep 1
-   exec_always feh --bg-scale --no-xinerama ~/wallpapers/JWST/52534406448_3909dd5a79_o.png
+   #exec_always feh --bg-scale --no-xinerama ~/wallpapers/JWST/52534406448_3909dd5a79_o.png
+   # exec_always feh --bg-scale --no-xinerama ~/wallpapers/JWST/52504158265_8322601464_o.png
+   exec_always feh --bg-scale --no-xinerama ~/wallpapers/JWST/52534406448_b932be60a4_6k.jpg
    #~/wallpapers/JWST/52534406448_3909dd5a79_o.png 
 
 exec --no-startup-id slack
@@ -433,7 +483,8 @@ exec --no-startup-id google-chrome
 #exec_always --no-startup-id autorandr --change
 
 # kill any hanging polybar processes
-   exec_always killall polybar && sleep 1 
+   exec_always killall polybar 
+   exec_always sleep 2 
   exec_always ~/.config/polybar/launch_polybar.sh
 #   exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 

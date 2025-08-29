@@ -373,7 +373,7 @@ If you need help, please feel welcome to ask in the GitHub discussions.
 (deflayer dvorak
   @grl 1    2    3    4    5    6    7    8    9    0    [    ]    bspc
   tab  '    ,    @.ms p    y    f    g    c    r    l    /    =    \
-  @rhs @lsft_th @lctl_th @lmet_th @larr_th @lalt_th  @ralt_th @rarr_th @rmet_th @rctl_th @rsft_th - ret
+  @rhs @lsft_th @lmet_th @lctl_th @larr_th @lalt_th  @ralt_th @rarr_th @rctl_th @rmet_th @rsft_th - ret
   lsft ;    q    j    k    x    b    m    w    v    z    rsft
   lctl lmet lalt           spc           @ralt rmet @rcl
 )
@@ -395,7 +395,7 @@ If you need help, please feel welcome to ask in the GitHub discussions.
 (deflayer rh_special
   @grl 1    2    3    4    5    6    7    8    9    0    [    ]    bspc
   tab  '    ,    @.ms p    y    f    `    S-[  S-]   +  /    =    \
-  @rhs @lsft_th @lctl_th @lmet_th @larr_th @lalt_th  S-grv  S-9 S-0    =    S-\    -    ret
+  @rhs @lsft_th @lmet_th @lctl_th @larr_th @lalt_th  S-grv  S-9 S-0    =    S-\    -    ret
   lsft ;    q    j    k    x    S--    [    ]  -    \   rsft
   lctl lmet lalt           spc           @ralt rmet @rcl
 )
@@ -425,12 +425,24 @@ If you need help, please feel welcome to ask in the GitHub discussions.
   __ XX  ;; maps all keys that are NOT in defsrc and are not mapped in the layer
 )
 
+(deflayermap (main)
+
+ ;;a (t! homerowmoa a lsft)
+ ;; e (t! homerowmoa e lctl)
+ ;; o (t! homerowmoa o lmet)
+ ;; u (t! homerowmoa u @arr)
+ ;; i (t! homerowmoa i lalt)
+
+)
+
+
 ;; defvar can be used to declare commonly-used values
 (defvar
   tap-timeout   200
   hold-timeout  300
   tt $tap-timeout
   ht $hold-timeout
+
 
   ;; A list value in defvar that begins with concat behaves in a special manner
   ;; where strings will be joined together.
@@ -447,6 +459,16 @@ If you need help, please feel welcome to ask in the GitHub discussions.
   th2 (tap-hold $tt $ht spc lsft)
 )
 
+
+(deftemplate homerowmod ( timeouthold char mod)
+  (switch 
+    ((key-timing 2 less-than 340)) $char break
+    () (tap-hold-release 0 $timeouthold  $char $mod) break
+  )
+)
+
+
+
 ;; defalias is used to declare a shortcut for a more complicated action to keep
 ;; the deflayer declarations clean and aligned. The alignment in deflayers is not
 ;; necessary, but is strongly recommended for ease of understanding visually.
@@ -460,18 +482,27 @@ If you need help, please feel welcome to ask in the GitHub discussions.
 
   arr (layer-toggle arrows)
   l_arr (layer-toggle l_arrows)
-  lsft_th (tap-hold $tt $ht a lsft) 
-  lctl_th (tap-hold $tt $ht o lctl)
-  lmet_th (tap-hold $tt $ht e lmet)
-  larr_th (tap-hold $tt $ht u @arr)
-  lalt_th (tap-hold $tt $ht i lalt)
-
+  ;; lsft_th (tap-hold $tt $ht a lsft) 
+  ;;lctl_th (tap-hold $tt $ht e lctl)
+  ;;lmet_th (tap-hold $tt $ht o lmet)
+  ;;larr_th (tap-hold $tt $ht u @arr)
+  ;;lalt_th (tap-hold $tt $ht i lalt)
+  lsft_th (t! homerowmod $tt a lsft) 
+  lctl_th (t! homerowmod $tt e lctl)
+  lmet_th (t! homerowmod  $tt o lmet)
+  larr_th (t! homerowmod  $tt u @arr)
+  lalt_th (t! homerowmod $tt i lalt)
   
-  rarr_th (tap-hold $tt $ht h @l_arr)
-  rsft_th (tap-hold $tt $ht s rsft) 
-  rctl_th (tap-hold $tt $ht n rctl)
-  ralt_th (tap-hold $tt $ht d ralt)
-  rmet_th (tap-hold $tt $ht t rmet)
+  rarr_th (t! homerowmod $tt h @l_arr)
+  rsft_th (t! homerowmod $tt s rsft)
+  rctl_th (t! homerowmod $tt t rctl)
+  ralt_th (t! homerowmod $tt d ralt)
+  rmet_th (t! homerowmod $tt n rmet)
+  ;; rarr_th (tap-hold $tt $ht h @l_arr)
+  ;; rsft_th (tap-hold $tt $ht s rsft) 
+  ;; rctl_th (tap-hold $tt $ht t rctl)
+  ;; ralt_th (tap-hold $tt $ht d ralt)
+  ;; rmet_th (tap-hold $tt $ht n rmet)
 
   ;; Aliases for layer "toggling". It's not quite toggling because the layer
   ;; will be active while the key is held and deactivated when the key is
@@ -1371,6 +1402,9 @@ If you need help, please feel welcome to ask in the GitHub discussions.
 ;; This template defines a chord group and aliases that use the chord group.
 ;; The purpose is to easily define the same chord position behaviour
 ;; for multiple layers that have different underlying keys.
+
+
+
 (deftemplate left-hand-chords (chordgroupname k1 k2 k3 k4 alias1 alias2 alias3 alias4)
   (defalias
     $alias1 (chord $chordgroupname $k1)

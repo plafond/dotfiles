@@ -1,0 +1,4 @@
+Monitor 1: eDP
+Monitor 2: DisplayPort-5
+Monitor 3: DisplayPort-3
+Monitor 4: DisplayPort-1

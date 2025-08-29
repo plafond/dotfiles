@@ -230,7 +230,7 @@ vim.keymap.set('n', '<leader>nw', ':Neorg workspace ', { desc = '[n]eorg [w]orks
 -- copilot next, previous and accept
 vim.keymap.set({ 'n', 'i' }, '<C-c>n', 'Copilot#Next()', { expr = true, desc = 'Copilot [n]ext' })
 vim.keymap.set({ 'n', 'i' }, '<C-c>t', 'Copilot#Previous()', { expr = true, desc = 'Copilot [t]revious' })
---vim.keymap.set({ 'n', 'i' }, '<C-c>t', 'copilot#Accept()', { desc = '[c]opilot accep[t]' })
+vim.keymap.set({ 'n', 'i' }, '<C-h>', "copilot#Accept('<CR>')", { expr = true, replace_keycodes = false, desc = '[c]opilot accep[h]' })
 
 --
 ---- undotree
@@ -260,6 +260,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true })
 --nnoremap <C-S> :update<cr>
 vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:w<CR>i', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C->', ':coc#refresh()', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<M-down>', ':Treewalker Down<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<M-up>', ':Treewalker Up<CR>', { noremap = true, silent = true })
@@ -878,7 +879,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<C-y>'] = cmp.mapping.confirm { select = true },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -1062,7 +1063,7 @@ require('lazy').setup({
     end,
   },
 
-  {'ellisonleao/glow.nvim', config = true, cmd = 'Glow'},
+  { 'ellisonleao/glow.nvim', config = true, cmd = 'Glow' },
 
   {
     'folke/tokyonight.nvim',
@@ -1177,6 +1178,19 @@ require('lazy').setup({
     config = function()
       local nvimTree = require 'nvim-tree'
       nvimTree.setup()
+    end,
+  },
+
+  {
+    'vimwiki/vimwiki',
+    init = function()
+      vim.g.vimwiki_list = {
+        {
+          path = '~/dotfiles/vimwiki',
+          syntax = 'default',
+          ext = '.wiki',
+        },
+      }
     end,
   },
 
