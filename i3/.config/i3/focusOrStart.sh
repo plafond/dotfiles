@@ -1,6 +1,6 @@
     #!/bin/sh
     
-count=`ps aux | grep -c $1 | grep -v grep`
+count=`ps aux | grep -v grep | grep -c $1`
 echo $count
 if [ $count -eq 0 ]; then
     $1
