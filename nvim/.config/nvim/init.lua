@@ -1,4 +1,4 @@
---[[
+--[[:
 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
@@ -228,9 +228,13 @@ vim.keymap.set('n', '<leader>nw', ':Neorg workspace ', { desc = '[n]eorg [w]orks
 --copilot
 --vim.keymap.set({ 'n', 'i' }, '<C-c>h', 'copilot#Help()', { desc = '[c]opilot [h]elp' })
 -- copilot next, previous and accept
-vim.keymap.set({ 'n', 'i' }, '<C-c>n', 'Copilot#Next()', { expr = true, desc = 'Copilot [n]ext' })
-vim.keymap.set({ 'n', 'i' }, '<C-c>t', 'Copilot#Previous()', { expr = true, desc = 'Copilot [t]revious' })
-vim.keymap.set({ 'n', 'i' }, '<C-h>', "copilot#Accept('<CR>')", { expr = true, replace_keycodes = false, desc = '[c]opilot accep[h]' })
+-- vim.keymap.set({ 'n', 'i' }, '<C-c>n', 'Copilot#Next()', { expr = true, desc = 'Copilot [n]ext' })
+-- vim.keymap.set({ 'n', 'i' }, '<C-c>t', 'Copilot#Previous()', { expr = true, desc = 'Copilot [t]revious' })
+-- vim.keymap.set({ 'n', 'i' }, '<C-h>', "copilot#Accept('<CR>')", { expr = true, replace_keycodes = false, desc = '[c]opilot accep[h]' })
+--
+--
+-- Add a keymap to enter the popup
+-- vim.keymap.set('n', '<leader>a', require('ai.util').enterPopup)
 
 --
 ---- undotree
@@ -932,6 +936,41 @@ require('lazy').setup({
     end,
   },
 
+  -- {
+  --   'gera2ld/ai.nvim',
+  --   dependencies = 'nvim-lua/plenary.nvim',
+  --   opts = {
+  --     ---- AI's answer is displayed in a popup buffer
+  --     ---- Default behaviour is not to give it the focus because it is seen as a kind of tooltip
+  --     ---- But if you prefer it to get the focus, set to true.
+  --     result_popup_gets_focus = false,
+  --     ---- Override default prompts here, see below for more details
+  --     -- prompts = {},
+  --     ---- Default models for each prompt, can be overridden in the prompt definition
+  --     models = {
+  --       {
+  --         provider = 'gemini',
+  --         model = 'gemini-pro',
+  --         result_tpl = '## Gemini\n\n{{output}}',
+  --       },
+  --     },
+  --
+  --     --- API keys and relavant config
+  --     gemini = {
+  --       api_key = os.getenv 'GEMINI_API_KEY',
+  --       -- model = 'gemini-pro',
+  --       -- proxy = '',
+  --     },
+  --   },
+  --   event = 'VeryLazy',
+  -- },
+
+{
+  'kiddos/gemini.nvim',
+  opts = {}
+},
+
+
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is
@@ -1114,7 +1153,7 @@ require('lazy').setup({
 
   {
     'theprimeagen/refactoring.nvim',
-    'github/copilot.vim',
+    -- 'github/copilot.vim',
     'mbbill/undotree',
     'machakann/vim-swap',
     'rest-nvim/tree-sitter-http',
