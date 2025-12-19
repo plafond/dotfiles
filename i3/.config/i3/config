@@ -47,7 +47,8 @@ floating_modifier $mod
    
 # start terminal
     #bindsym $mod+Return exec kitty
-bindsym $mod+Return exec alacritty
+set $term alacritty
+bindsym $mod+Return exec $term
 
 # start browser
 # bindsym $mod+b exec brave
@@ -59,7 +60,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+p exec flameshot gui
 
 # sound control
-bindsym $mod+Shift+A exec pavucontrol-qt
+#bindsym $mod+Shift+A exec pavucontrol-qt
     
 
 # kill focused window
@@ -70,26 +71,49 @@ bindsym $mod+Shift+Return exec rofi -show drun
 bindsym $mod+Tab exec rofi -show window
 
 
-bindsym $mod+f exec  ~/.config/i3/focusOrStart.sh "Nautilus"
+#bindsym $mod+f exec  ~/.config/i3/focusOrStart.sh "Nautilus"
 #move to workspace G instead
 #bindsym $mod+g exec ~/.config/i3/focusOrStart.sh "ghostty"
-bindsym $mod+s exec ~/.config/i3/focusOrStart.sh "Slack"
-bindsym $mod+t exec ~/.config/i3/focusOrStart.sh "Zed"
-bindsym $mod+z exec ~/.config/i3/focusOrStart.sh "zen"
+#bindsym $mod+s exec ~/.config/i3/focusOrStart.sh "Slack"
+#bindsym $mod+t exec ~/.config/i3/focusOrStart.sh "Zed"
+#bindsym $mod+z exec ~/.config/i3/focusOrStart.sh "zen"
 
-bindsym $mod+v exec ~/.config/i3/focusOrStart.sh "Code"
+#bindsym $mod+v exec ~/.config/i3/focusOrStart.sh "Code"
 
-bindsym $mod+c exec ~/.config/i3/focusOrStart.sh "chrome"
+#bindsym $mod+c exec ~/.config/i3/focusOrStart.sh "chrome"
 bindsym $mod+b exec ~/.config/i3/focusOrStart.sh "Brave"
+# bindsym $mod+d exec $term -e lazydocker
+# bindsym $mod+k exec $term -e k9s
+# bindsym $mod+ exec $term -e k9s
 
-# "SkedPal"
-bindsym $mod+h exec ~/.config/i3/focusOrStart.sh "crx_gnoglfpdikbdaneajmdajhlcfijpolel" 
-# Notion
-bindsym $mod+n exec ~/.config/i3/focusOrStart.sh "crx_nkdhlohhaagddalgpiepelhmbnaaffne"
+set $mode_run "run_tui"
+mode $mode_run {
+
+   bindsym d exec $term -e lazydocker
+   bindsym k exec $term -e k9s
+   bindsym n exec $term -e tui-network
+   bindsym b exec $term -e btop
+
+   bindsym a exec pavucontrol-qt
+   bindsym f exec  ~/.config/i3/focusOrStart.sh "Nautilus"
+   bindsym t exec ~/.config/i3/focusOrStart.sh "ghostty"
+
+    # exit system mode with "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+
+}
+bindsym $mod+r mode $mode_run
+
+
+
+#bindsym $mod+b exec $term -e btop
+### "SkedPal"
+#bindsym $mod+h exec ~/.config/i3/focusOrStart.sh "crx_gnoglfpdikbdaneajmdajhlcfijpolel" 
 ##### FOR lAPTOP    
 bindsym Ctrl+Shift+F10 exec ~/dotfiles/scripts/startWorkApps.sh
 
-bindsym $mod+Shift+l exec ~/dotfiles/scripts/layoutsManager.sh
+#bindsym $mod+Shift+l exec ~/dotfiles/scripts/layoutsManager.sh
 
 bindsym Ctrl+Shift+F11 exec kanata --cfg ~/dotfiles/kanata/kanata.kbd
 #switch keymapsndexec setxkbmap -layout us -variant dvorak
@@ -121,10 +145,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+H move left
-bindsym $mod+Shift+T move down
-bindsym $mod+Shift+N move up
-bindsym $mod+Shift+S move right
+# bindsym $mod+Shift+H move left
+# bindsym $mod+Shift+T move down
+# bindsym $mod+Shift+N move up
+# bindsym $mod+Shift+S move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -134,9 +158,8 @@ bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+Shift+d split h
-
 # split in vertical orientation
-bindsym $mod+Shift+v split v
+#bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+m fullscreen toggle
@@ -168,7 +191,11 @@ for_window [window_type="menu"]                         floating enable
 bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
 bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 
+## TODO - needs sudo
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set -10%
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -186,28 +213,66 @@ set $ws8 8
 set $ws9 9
 set $ws10 10
 set $ws11 "A"
-set $ws12 "C"
+set $wsC "C"
 set $ws13 "O"
-set $ws14 "T"
+set $wsT "T"
+#""
 set $ws15 "M"
-set $ws16 "Z"
-set $ws17 "S"
-set $ws18 "H"
-set $wsG "G"
+set $wsSteam "G"
+set $wsS "S"
+#"󰓓"
+set $wsH "H"
+#set $wsG "G"
+set $wsN "N"  
+#""
+set $wsL "L"
+set $wsZ "Z"
+set $wsI "I"
+set $wsV "V"
+
+# Slack
+bindsym $mod+s workspace $wsS exec ~/.config/i3/focusOrStart.sh "Slack"
+bindsym $mod+Shift+s move container to workspace $wsS; mode "default"
+
+bindsym $mod+t workspace $wsT; exec ~/.config/i3/focusOrStart.sh "ghostty"
+bindsym $mod+Shift+t move container to workspace $wsT; mode "default"
 
 
-bindsym $mod+g workspace $wsG; exec ~/.config/i3/focusOrStart.sh "ghostty"
-bindsym $mod+Shift+g move container to workspace $wsG; mode "default"
+bindsym $mod+v workspace $wsV; exec ~/.config/i3/focusOrStart.sh "Zed"
+bindsym $mod+Shift+V move container to workspace $wsV; mode "default"
+
+# bindsym $mod+i workspace $wsI; exec ~/.config/i3/focusOrStart.sh "Zed"
+# bindsym $mod+Shift+i move container to workspace $wsI; mode "default"
+
+bindsym $mod+g workspace $wsSteam; exec ~/.config/i3/focusOrStart.sh "Steam"
+bindsym $mod+Shift+g move container to workspace $wsSteam; mode "default"
 
 
+# Notion
+bindsym $mod+n workspace $wsN; exec ~/.config/i3/focusOrStart.sh "crx_nkdhlohhaagddalgpiepelhmbnaaffne"
+bindsym $mod+Shift+n move container to workspace $wsN; mode "default"
+
+# Linear
+bindsym $mod+l workspace $wsL; exec ~/.config/i3/focusOrStart.sh "crx_bgdbmehlmdmddlgneophbcddadgknlpm"
+bindsym $mod+Shift+l move container to workspace $wsL; mode "default"
+
+# Google Calendar
+bindsym $mod+c workspace $wsC; exec ~/.config/i3/focusOrStart.sh "crx_kjbdgfilnfhdoflbpgamdcdgpehopbep"
+bindsym $mod+Shift+c move container to workspace $wsC; mode "default"
+
+# SkedPal 
+bindsym $mod+h workspace $wsH; exec ~/.config/i3/focusOrStart.sh "crx_gnoglfpdikbdaneajmdajhlcfijpolel"
+bindsym $mod+Shift+h move container to workspace $wsH; mode "default"
+
+# Zen
+bindsym $mod+z workspace $wsZ; exec ~/.config/i3/focusOrStart.sh "zen"
+bindsym $mod+Shift+z move container to workspace $wsZ; mode "default"
+#bindsym $mod+z exec ~/.config/i3/focusOrStart.sh "zen"
 
 set $mode_ws "extra-workspaces"
 mode $mode_ws {
     bindsym a workspace $ws11; mode "default"
     bindsym Shift+a move container to workspace $ws11; mode "default"
-
-    bindsym c workspace $ws12; mode "default"
-    bindsym Shift+c move container to workspace $ws12; mode "default"
 
     bindsym o workspace $ws13; mode "default"
     bindsym Shift+c move container to workspace $ws13; mode "default"
@@ -218,14 +283,9 @@ mode $mode_ws {
     bindsym m workspace $ws15; mode "default"
     bindsym Shift+m move container to workspace $ws15; mode "default"
 
-    bindsym z workspace $ws16; mode "default"
-    bindsym Shift+z move container to workspace $ws16; mode "default"
+    bindsym s workspace $wsSteam; mode "default"
+    bindsym Shift+s move container to workspace $wsSteam; mode "default"
 
-    bindsym s workspace $ws17; mode "default"
-    bindsym Shift+s move container to workspace $ws17; mode "default"
-
-    bindsym h workspace $ws18; mode "default"
-    bindsym Shift+h move container to workspace $ws18; mode "default"
 
     bindsym $mod+g; exec ~/.config/i3/focusOrStart.sh "ghostty"
 
@@ -242,7 +302,7 @@ bindsym $mod+shift+w mode $mode_ws
 #for_window [class="Zen Browser"] move container to workspace $ws16
 
 #Google Calendar
-for_window [title="Google Calendar *" instance="crx_kjbdgfilnfhdoflbpgamdcdgpehopbep"] move container to workspace $ws10
+for_window [title="Google Calendar *" instance="crx_kjbdgfilnfhdoflbpgamdcdgpehopbep"] move container to workspace $wsC
 for_window [title="Google Calendar *" instance="crx_kjbdgfilnfhdoflbpgamdcdgpehopbep"] floating disable 
 
 
@@ -251,22 +311,26 @@ for_window [title="Microsoft Teams*" instance="crx_cifhbcnohmdccbgoicgdjpfamggde
 for_window [title="Microsoft Teams*" instance="crx_cifhbcnohmdccbgoicgdjpfamggdegmo"] floating disable
 
 #Notion
-for_window [title="Notion*" instance="crx_nkdhlohhaagddalgpiepelhmbnaaffne"] move container to workspace $ws10
+for_window [title="Notion*" instance="crx_nkdhlohhaagddalgpiepelhmbnaaffne"] move container to workspace $wsN
 for_window [title="Notion*" instance="crx_nkdhlohhaagddalgpiepelhmbnaaffne"] floating disable
 
+#Notion calendar?
 for_window [title="Notion*" instance="crx_gfjiemlnmgajmgihefeppogphdpjchab"] move container to workspace $ws10
 for_window [title="Notion*" instance="crx_gfjiemlnmgajmgihefeppogphdpjchab"] floating disable
 
+#Linear
+for_window [title="Linear*" instance="crx_bgdbmehlmdmddlgneophbcddadgknlpm"] move container to workspace $wsL
+for_window [title="Linear*" instance="crx_bgdbmehlmdmddlgneophbcddadgknlpm"] floating disable
 
-for_window [class="Slack" instance="slack"] move container to workspace $ws10
+for_window [class="Slack" instance="slack"] move container to workspace $wsS
 
-
-for_window [title="Skedpal*" instance="crx_gnoglfpdikbdaneajmdajhlcfijpolel"] move container to workspace $ws10
-for_window [title="Skedpal*"] floating disable
+for_window [title="Skedpal*" instance="crx_gnoglfpdikbdaneajmdajhlcfijpolel"] move container to workspace $wsH
+for_window [title="Skedpal*" instance="crx_gnoglfpdikbdaneajmdajhlcfijpolel"] floating disable
 
 #for_window [title="AWS *" class="Google-chrome"] move container to workspace $ws11
-for_window [class="Steam"] move container to workspace $ws17
+for_window [class="Steam"] move container to workspace $wsSteam
 
+#for_window [class="Zen*"] move container to workspace $wsZ
 #for_window [class="Nugs"] move container to workspace $ws15
 for_window [class="Rhythmbox"] move container to workspace $ws15
 for_window [class="vlc"] move container to workspace $ws15
@@ -377,10 +441,10 @@ bindsym $mod+minus    floating toggle; resize set $scratchpad-size, move positio
 
 
 exec_always --no-startup-id ~/dotfiles/scripts/autorandr-update/create_Xresources_entry.sh
+exec_always sleep 3
 exec_always --no-startup-id ~/dotfiles/scripts/autorandr-update/create_monitor_templates.sh
 exec_always --no-startup-id ~/dotfiles/scripts/autorandr-update/autorandr_profile_selector.sh
-
-exec_always sleep 5
+exec_always sleep 2
 
    ### LAPTOP
   #eDP-1 //main mon
@@ -411,18 +475,38 @@ exec_always echo "Monitor 4: $s4" >> ~/dotfiles/scripts/autorandr-update/monitor
  # set $s3 < exec ~/dotfiles/scripts/autorandr-update/get_monitor_value.sh -V
 
   
-  workspace $ws1 output $s1
-  workspace $ws2 output $s1
-  workspace $ws3 output $s1
-   workspace $ws4 output $s2
-   workspace $ws5 output $s2
-   workspace $ws6 output $s2
-   workspace $ws7 output $s2
-   workspace $ws8 output $s3
-   workspace $ws9 output $s3
-   workspace $ws10 output $s3
+workspace $ws1 output $s1
+workspace $ws2 output $s1
+workspace $ws3 output $s1
+workspace $ws4 output $s2
+workspace $ws5 output $s2
+workspace $ws6 output $s2
+workspace $ws7 output $s2
+workspace $ws8 output $s3
+workspace $ws9 output $s3
+workspace $ws10 output $s3
 
-  workspace $wsG output $s4
+workspace $wsT output $s4
+
+
+
+workspace $wsC output $s3
+workspace $wsT output $s2
+
+#set $ws15 "M"
+workspace $wsSteam output $s2
+workspace $wsS output $s3
+#"󰓓"
+workspace $wsH output $s3
+#set $wsG "G"
+workspace $wsN output $s2 
+#""
+workspace $wsL output $s3
+workspace $wsZ output $s2
+workspace $wsI output $s2
+
+workspace $wsV output $s2
+
   # workspace $ws3 output DisplayPort-5
   # workspace $ws4 output DisplayPort-5 
   # workspace $ws5 output DisplayPort-5
@@ -461,6 +545,9 @@ exec --no-startup-id nm-applet
 
 ## load gnome xsetting - try to get dark theme
 exec --no-startup-id /usr/libexec/gsd-xsettings
+
+## battery notifications - installed in .local/bin
+exec --no-startup-id i3-battery-popup -n -i 
 
 ## load gnome keyring
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=ssh,secrets,pkcs11
