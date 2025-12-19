@@ -1,0 +1,7 @@
+configuration {
+}
+//@import "myConfig"
+//@theme "gruvbox-dark"
+// @theme "purple"
+@theme "Monokai"
+
