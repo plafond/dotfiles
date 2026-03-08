@@ -173,7 +173,8 @@ bindsym $mod+period layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# open up this shortcut to use wih Handy
+#bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -553,6 +554,8 @@ exec --no-startup-id i3-battery-popup -n -i 
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=ssh,secrets,pkcs11
 
 exec --no-startup-id picom
+
+exec --no-startup-id /usr/bin/kdeconnect-indicator
 # exec --no-startup-id ~/.screenlayout/default.sh
 # exec --no-startup-id ~/.screenlayout/desk_setup2.sh
 # exec --no-startup-id ~/.screenlayout/laptop_only.sh
