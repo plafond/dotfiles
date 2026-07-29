@@ -197,10 +197,8 @@ vim.keymap.set('n', '<C-t>', ':cprev<cr>', { desc = 'QuickFix Prev' })
 --  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<M-h>', '<C-w>h', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<M-s>', '<C-w>l', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<M-t>', '<C-w>j', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<M-n>', '<C-w>k', { desc = 'Move focus to the upper window' })
+-- NOTE: These are handled by vim-tmux-navigator plugin (seamless nvim<->tmux pane switching)
+-- Keymaps set in the plugin spec below using TmuxNavigate* commands
 
 -- vim.keymap.set('n', '<M><left>', '<C-w><C-W>h', { desc = 'Move focus to the left window' })
 -- vim.keymap.set('n', '<M><right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -343,34 +341,92 @@ require('lazy').setup({
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    config = function() -- This is the function that runs, AFTER loading
-      local wk = require 'which-key'
-      wk.setup()
-      wk.add {
-
-        -- Document existing key chains
-
-        { '<leader>c', group = '[C]ode' },
-        { '<leader>c_', hidden = true },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>d_', hidden = true },
-        { '<leader>g', group = '[g]it Telescope menu' },
-        { '<leader>g_', hidden = true },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>r_', hidden = true },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>s_', hidden = true },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>w_', hidden = true },
-        { 't', group = 'Terminal' },
+    event = 'VeryLazy',
+    opts = {
+      preset = 'helix',
+      spec = {
+        {
+          mode = { 'n', 'x' },
+          -- Groups
+          { '<leader>c', group = 'code' },
+          -- NOTE: <leader>d is the "delete without copy" operator (_d), no group
+          { '<leader>D', desc = 'type definition (LSP)' },
+          { '<leader>ds', desc = 'document symbols (LSP)' },
+          { '<leader>f', group = 'file/find' },
+          { '<leader>g', group = 'git' },
+          { '<leader>gh', group = 'hunks' },
+          { '<leader>n', group = 'notes' },
+          { '<leader>o', group = 'opencode (AI)' },
+          { '<leader>q', desc = 'quickfix/diagnostics list' },
+          { '<leader>r', group = 'rename/refactor' },
+          { '<leader>s', group = 'search' },
+          { '<leader>u', group = 'ui' },
+          { '<leader>w', group = 'workspace' },
+          { '<leader>x', group = 'diagnostics/quickfix' },
+          -- NOTE: <leader>b = DAP toggle breakpoint; <leader>B = conditional breakpoint
+          { '<leader>b', desc = 'breakpoint toggle (DAP)' },
+          { '<leader>B', desc = 'breakpoint conditional (DAP)' },
+          { '[', group = 'prev' },
+          { ']', group = 'next' },
+          { 'g', group = 'goto' },
+          { 'z', group = 'fold' },
+          -- Window proxy + expand
+          {
+            '<leader>W',
+            group = 'windows',
+            proxy = '<c-w>',
+            expand = function()
+              return require('which-key.extras').expand.win()
+            end,
+          },
+        },
+        -- Terminal group (ToggleTerm)
+        { 't', group = 'terminal', mode = 'n' },
         { 'tf', '<cmd>ToggleTerm direction=float<cr>', desc = 'Float' },
         { 'th', '<cmd>ToggleTerm size=10 direction=horizontal<cr>', desc = 'Horizontal' },
-        { 'tn', '<cmd>lua _NODE_TOGGLE()<cr>', desc = 'Node' },
-        { 'tp', '<cmd>lua _PYTHON_TOGGLE()<cr>', desc = 'Python' },
-        { 'tt', '<cmd>lua _LAZYGIT_TOGGLE()<cr>', desc = 'Git' },
+        { 'tn', '<cmd>lua _NODE_TOGGLE()<cr>', desc = 'Node REPL' },
+        { 'tp', '<cmd>lua _PYTHON_TOGGLE()<cr>', desc = 'Python REPL' },
+        { 'tt', '<cmd>lua _LAZYGIT_TOGGLE()<cr>', desc = 'LazyGit' },
         { 'tv', '<cmd>ToggleTerm size=80 direction=vertical<cr>', desc = 'Vertical' },
-      }
+      },
+    },
+    keys = {
+      {
+        '<leader>?',
+        function()
+          require('which-key').show { global = false }
+        end,
+        desc = 'Buffer keymaps (which-key)',
+      },
+      {
+        '<c-w><space>',
+        function()
+          require('which-key').show { keys = '<c-w>', loop = true }
+        end,
+        desc = 'Window hydra mode (which-key)',
+      },
+    },
+  },
+
+  {
+    'christoomey/vim-tmux-navigator',
+    -- Seamless navigation between nvim windows and tmux panes using same keys
+    -- Dvorak home row: h=left, t=down, n=up, s=right (matches tmux pane nav)
+    cmd = { 'TmuxNavigateLeft', 'TmuxNavigateDown', 'TmuxNavigateUp', 'TmuxNavigateRight' },
+    keys = {
+      -- Alt+Dvorak home row (primary)
+      -- { '<M-h>',     '<cmd>TmuxNavigateLeft<cr>',  desc = 'Navigate left (nvim/tmux)' },
+      -- { '<M-t>',     '<cmd>TmuxNavigateDown<cr>',  desc = 'Navigate down (nvim/tmux)' },
+      -- { '<M-n>',     '<cmd>TmuxNavigateUp<cr>',    desc = 'Navigate up (nvim/tmux)' },
+      -- { '<M-s>',     '<cmd>TmuxNavigateRight<cr>', desc = 'Navigate right (nvim/tmux)' },
+      -- Alt+Arrow (alternative / muscle memory)
+      { '<C-Left>', '<cmd>TmuxNavigateLeft<cr>', desc = 'Navigate left (nvim/tmux)' },
+      { '<C-Down>', '<cmd>TmuxNavigateDown<cr>', desc = 'Navigate down (nvim/tmux)' },
+      { '<C-Up>', '<cmd>TmuxNavigateUp<cr>', desc = 'Navigate up (nvim/tmux)' },
+      { '<C-Right>', '<cmd>TmuxNavigateRight<cr>', desc = 'Navigate right (nvim/tmux)' },
+    },
+    init = function()
+      vim.g.tmux_navigator_no_mappings = 1
     end,
   },
 
@@ -910,6 +966,7 @@ require('lazy').setup({
           end, { 'i', 's' }),
         },
         sources = {
+          { name = 'minuet' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
@@ -965,11 +1022,139 @@ require('lazy').setup({
   --   event = 'VeryLazy',
   -- },
 
-{
-  'kiddos/gemini.nvim',
-  opts = {}
-},
+  {
+    -- minuet-ai: Copilot-style inline ghost-text
+    -- To switch provider, change end_point + api_key + model below:
+    --   ZAI coding plan:  end_point='https://api.z.ai/api/coding/paas/v4/chat/completions', api_key='ZAI_API_KEY'
+    --   OpenRouter free:  end_point='https://openrouter.ai/api/v1/chat/completions',         api_key='OPENROUTER_API_KEY'
+    -- OpenRouter free models: google/gemini-2.0-flash-exp:free, qwen/qwen-2.5-coder-32b-instruct:free
+    'milanglacier/minuet-ai.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    event = 'InsertEnter',
+    opts = {
+      provider = 'openai_compatible',
+      request_timeout = 8,
+      throttle = 3000, -- ms to wait after typing stops before requesting (higher = fewer API calls)
+      debounce = 500, -- ms debounce on keystrokes
+      n_completions = 1, -- number of suggestions to fetch
+      provider_options = {
+        openai_compatible = {
+          model = 'glm-4.7-flash',
+          end_point = 'https://api.z.ai/api/coding/paas/v4/chat/completions',
+          api_key = 'ZAI_API_KEY',
+          name = 'ZAI',
+          stream = true,
+          optional = {
+            max_tokens = 256,
+            top_p = 0.9,
+          },
+        },
+      },
+      virtualtext = {
+        enabled = true,
+        keymap = {
+          accept = '<Tab>', -- accept full suggestion
+          accept_line = '<C-j>', -- accept one line
+          dismiss = '<C-]>', -- dismiss
+          prev = '<M-[>', -- cycle suggestions
+          next = '<M-]>',
+        },
+      },
+      log_level = 'debug',
+    },
+  },
 
+  {
+    -- opencode AI assistant - editor-aware chat, review, fix, explain
+    -- https://github.com/nickjvandyke/opencode.nvim
+    -- Requires: opencode binary (npm install -g opencode)
+    'nickjvandyke/opencode.nvim',
+    version = '*',
+    dependencies = {
+      { 'folke/snacks.nvim', optional = true },
+    },
+    opts = {
+      provider = {
+        -- tmux: opens opencode in a popup, consistent with lazygit (prefix+g)
+        enabled = 'tmux',
+      },
+      autoread = true, -- auto-reload buffers when opencode edits them
+    },
+    keys = {
+      -- <leader>o namespace (o = opencode) — avoids <C-a> and <C-x> conflicts
+      {
+        '<leader>oa',
+        function()
+          require('opencode').ask()
+        end,
+        desc = 'opencode: ask with context',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>os',
+        function()
+          require('opencode').select()
+        end,
+        desc = 'opencode: select action',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>ot',
+        function()
+          require('opencode').command 'toggle'
+        end,
+        desc = 'opencode: toggle terminal',
+      },
+      {
+        '<leader>or',
+        function()
+          require('opencode').prompt 'review'
+        end,
+        desc = 'opencode: review',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>oe',
+        function()
+          require('opencode').prompt 'explain'
+        end,
+        desc = 'opencode: explain',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>of',
+        function()
+          require('opencode').prompt 'fix'
+        end,
+        desc = 'opencode: fix',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>ox',
+        function()
+          require('opencode').prompt 'test'
+        end,
+        desc = 'opencode: tests',
+        mode = { 'n', 'v' },
+      },
+      -- go / goo: add range/line to opencode (low conflict, vim goto-byte is rarely used)
+      {
+        'go',
+        function()
+          require('opencode').operator()
+        end,
+        desc = 'opencode: add range',
+        expr = true,
+      },
+      {
+        'goo',
+        function()
+          require('opencode').ask '@this'
+        end,
+        desc = 'opencode: add line',
+      },
+    },
+  },
 
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then

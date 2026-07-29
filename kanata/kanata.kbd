@@ -373,7 +373,7 @@ If you need help, please feel welcome to ask in the GitHub discussions.
 (deflayer dvorak
   @grl 1    2    3    4    5    6    7    8    9    0    [    ]    bspc
   tab  '    ,    @.ms p    y    f    g    c    r    l    /    =    \
-  @rhs @lsft_th @lmet_th @lctl_th @larr_th @lalt_th  @ralt_th @rarr_th @rctl_th @rmet_th @rsft_th - ret
+  @caps2 @lsft_th @lmet_th @lctl_th @larr_th @lalt_th  @ralt_th @rarr_th @rctl_th @rmet_th @rsft_th - ret
   lsft ;    q    j    k    x    b    m    w    v    z    rsft
   lctl lmet lalt           spc           @ralt rmet @rcl
 )
@@ -395,7 +395,7 @@ If you need help, please feel welcome to ask in the GitHub discussions.
 (deflayer rh_special
   @grl 1    2    3    4    5    6    7    8    9    0    [    ]    bspc
   tab  '    ,    @.ms p    y    f    `    S-[  S-]   +  /    =    \
-  @rhs @lsft_th @lmet_th @lctl_th @larr_th @lalt_th  S-grv  S-9 S-0    =    S-\    -    ret
+  @caps2 @lsft_th @lmet_th @lctl_th @larr_th @lalt_th  S-grv  S-9 S-0    =    S-\    -    ret
   lsft ;    q    j    k    x    S--    [    ]  -    \   rsft
   lctl lmet lalt           spc           @ralt rmet @rcl
 )
@@ -438,35 +438,51 @@ If you need help, please feel welcome to ask in the GitHub discussions.
 
 ;; defvar can be used to declare commonly-used values
 (defvar
-  tap-timeout   200
-  hold-timeout  300
+  tap-timeout   300
+  hold-timeout  250
   tt $tap-timeout
   ht $hold-timeout
 
-
-  ;; A list value in defvar that begins with concat behaves in a special manner
-  ;; where strings will be joined together.
-  ;;
-  ;; Below results in 100200
-  a "hello"
-  b "world"
-  ct (concat $a " " $b)
+;; Timing parameters
+  
+  ;; Keys on same hand that trigger early tap
+  ;; EXCLUDING homerow mod keys so they can combine smoothly
+  left-hand-keys (
+    ' , . p y
+    ; q j k x 
+  )
+  
+  right-hand-keys (
+    f g c r l / = \
+    b m w v z 
+  )
 )
-
 
 (defalias
   th1 (tap-hold $tt $ht caps lctl)
   th2 (tap-hold $tt $ht spc lsft)
 )
 
-
-(deftemplate homerowmod ( timeouthold char mod)
-  (switch 
-    ((key-timing 2 less-than 340)) $char break
-    () (tap-hold-release 0 $timeouthold  $char $mod) break
+(deftemplate homerowmod ( timeouthold char mod tt)
+ (switch 
+    ((key-timing 3 less-than 140)) $char break
+    () (tap-hold-except-keys 0 $ht $char $mod ()) break
   )
-)
 
+;; (tap-hold-except-keys 0 $ht $char $mod ())
+
+;; (switch 
+;;    ((key-timing 3 less-than 140)) $char break
+;;    () (tap-hold-release 0 $timeouthold  $char $mod) break
+;;  )
+
+;;   ( tap-hold-release-keys $ht $tt $char $mod $ttk )
+
+;;  (switch 
+;;    ((key-timing 2 less-than 140)) $char break
+;;    () (tap-hold-release-keys $tt $ht $char $mod $ttk) break
+;;  )
+)
 
 
 ;; defalias is used to declare a shortcut for a more complicated action to keep
@@ -480,24 +496,25 @@ If you need help, please feel welcome to ask in the GitHub discussions.
   dvk (layer-switch dvorak)
   qwr (layer-switch qwerty)
 
-  arr (layer-toggle arrows)
-  l_arr (layer-toggle l_arrows)
+
+  arr (layer-while-held arrows)
+  l_arr (layer-while-held l_arrows)
   ;; lsft_th (tap-hold $tt $ht a lsft) 
   ;;lctl_th (tap-hold $tt $ht e lctl)
   ;;lmet_th (tap-hold $tt $ht o lmet)
   ;;larr_th (tap-hold $tt $ht u @arr)
   ;;lalt_th (tap-hold $tt $ht i lalt)
-  lsft_th (t! homerowmod $tt a lsft) 
-  lctl_th (t! homerowmod $tt e lctl)
-  lmet_th (t! homerowmod  $tt o lmet)
-  larr_th (t! homerowmod  $tt u @arr)
-  lalt_th (t! homerowmod $tt i lalt)
-  
-  rarr_th (t! homerowmod $tt h @l_arr)
-  rsft_th (t! homerowmod $tt s rsft)
-  rctl_th (t! homerowmod $tt t rctl)
-  ralt_th (t! homerowmod $tt d ralt)
-  rmet_th (t! homerowmod $tt n rmet)
+  lsft_th (t! homerowmod $tt a lctl $left-hand-keys) 
+  lctl_th (t! homerowmod $tt e lmet $left-hand-keys) 
+  lmet_th (t! homerowmod  $tt o lalt $left-hand-keys) 
+  larr_th (t! homerowmod  $tt u @arr $left-hand-keys) 
+  lalt_th (t! homerowmod $tt i lshft $left-hand-keys) 
+
+  rarr_th (t! homerowmod $tt h @l_arr $right-hand-keys)
+  rsft_th (t! homerowmod $tt s rctl $right-hand-keys)
+  rctl_th (t! homerowmod $tt t rmet $right-hand-keys)
+  ralt_th (t! homerowmod $tt d rshft $right-hand-keys)
+  rmet_th (t! homerowmod $tt n ralt $right-hand-keys)
   ;; rarr_th (tap-hold $tt $ht h @l_arr)
   ;; rsft_th (tap-hold $tt $ht s rsft) 
   ;; rctl_th (tap-hold $tt $ht t rctl)
@@ -516,6 +533,8 @@ If you need help, please feel welcome to ask in the GitHub discussions.
   mse (layer-toggle mouse)
   fks (layer-while-held fakekeys)
   rhs (layer-while-held rh_special)
+
+  caps2 (t! homerowmod $tt esc @rhs ())
 
   ;; tap-hold aliases with tap for dvorak key, and hold for toggle layers
   ;; WARNING(Linux only): key repeat with tap-hold can behave unexpectedly.

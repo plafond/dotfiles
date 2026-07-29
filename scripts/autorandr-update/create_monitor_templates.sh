@@ -7,10 +7,6 @@
 # Path to configuration files
 CONFIG_DIR=~/.config/autorandr/multi-mon_template
 TARGET_DIR=~/.config/autorandr/multi-mon
-CONFIG_FILE="$CONFIG_DIR/config"
-SETUP_FILE="$CONFIG_DIR/setup"
-CONFIG_TMP="$CONFIG_DIR/config.tmp"
-SETUP_TMP="$CONFIG_DIR/setup.tmp"
 SCRIPT_DIR=~/dotfiles/scripts/autorandr-update/
 
 # Get monitor numbers from monitor_numbers.sh
@@ -31,25 +27,45 @@ if [ ${#MONITORS[@]} -eq 0 ]; then
     exit 1
 fi
 
+
 # Find largest and smallest monitor numbers
 LARGEST=${MONITORS[0]}
 SMALLEST=${MONITORS[0]}
+EXTERNAL=${MONITORS[0]}
 
-for num in "${MONITORS[@]}"; do
-    if (( num > LARGEST )); then
+MONITORS_SORTED=($(printf "%s\n" "${MONITORS[@]}" | sort -n))
+#echo ${MONITORS_SORTED[@]}
+if [ ${#MONITORS_SORTED[@]} -eq 3 ]; then
+    CONFIG_DIR=~/.config/autorandr/3-mon-template
+    TARGET_DIR=~/.config/autorandr/3-mon
+
+    EXTERNAL=${MONITORS_SORTED[0]}
+    SMALLEST=${MONITORS_SORTED[1]}
+    LARGEST=${MONITORS_SORTED[2]}
+else
+   for num in "${MONITORS[@]}"; do
+     if (( num > LARGEST )); then
         LARGEST=$num
-    fi
-    if (( num < SMALLEST )); then
+     fi
+     if (( num < SMALLEST )); then
         SMALLEST=$num
-    fi
-done
-
+     fi
+   done
+fi
+ 
 echo "Largest monitor number: $LARGEST"
 echo "Smallest monitor number: $SMALLEST"
+echo "External monitor number:  $EXTERNAL"
 
+
+CONFIG_FILE="$CONFIG_DIR/config"
+SETUP_FILE="$CONFIG_DIR/setup"
+CONFIG_TMP="$CONFIG_DIR/config.tmp"
+SETUP_TMP="$CONFIG_DIR/setup.tmp"
 # Variables set for template processing
 MONITOR_H=$LARGEST
 MONITOR_V=$SMALLEST
+MONITOR_X=$EXTERNAL
 
 # Create temporary config file
 if [ -f "$CONFIG_FILE" ]; then
@@ -59,8 +75,9 @@ if [ -f "$CONFIG_FILE" ]; then
     # Replace MONITOR_H with largest number and MONITOR_V with smallest number
     sed -i "s/MONITOR_H/$LARGEST/g" "$CONFIG_TMP"
     sed -i "s/MONITOR_V/$SMALLEST/g" "$CONFIG_TMP"
+    sed -i "s/MONITOR_X/$EXTERNAL/g" "$CONFIG_TMP"
     
-    echo "Created $CONFIG_TMP with MONITOR_H=$LARGEST and MONITOR_V=$SMALLEST"
+    echo "Created $CONFIG_TMP with MONITOR_H=$LARGEST and MONITOR_V=$SMALLEST and MONITOR_X=$EXTERNAL"
 
     # Move the temporary file to the target directory
     mv "$CONFIG_TMP" "$TARGET_DIR/config"
@@ -77,8 +94,9 @@ if [ -f "$SETUP_FILE" ]; then
     # Replace MONITOR_H with largest number and MONITOR_V with smallest number
     sed -i "s/MONITOR_H/$LARGEST/g" "$SETUP_TMP"
     sed -i "s/MONITOR_V/$SMALLEST/g" "$SETUP_TMP"
+    sed -i "s/MONITOR_X/$EXTERNAL/g" "$SETUP_TMP"
     
-    echo "Created $SETUP_TMP with MONITOR_H=$LARGEST and MONITOR_V=$SMALLEST"
+    echo "Created $SETUP_TMP with MONITOR_H=$LARGEST and MONITOR_V=$SMALLEST and MONITOR_X=$EXTERNAL"
 
     # Move the temporary file to the target directory
     mv "$SETUP_TMP" "$TARGET_DIR/setup"
@@ -93,4 +111,4 @@ echo ""
 echo "To export variables to your shell, run:"
 echo "eval \$(./create_monitor_templates.sh | tail -1)"
 echo ""
-echo "export MONITOR_H=$LARGEST; export MONITOR_V=$SMALLEST"
+echo "export MONITOR_H=$LARGEST; export MONITOR_V=$SMALLEST; export MONITOR_X=$EXTERNAL"

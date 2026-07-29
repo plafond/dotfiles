@@ -103,7 +103,7 @@ mode $mode_run {
     bindsym Escape mode "default"
 
 }
-bindsym $mod+r mode $mode_run
+bindsym $mod+Ctrl+Shift+t mode $mode_run
 
 
 
@@ -170,11 +170,13 @@ bindsym $mod+comma layout tabbed
 bindsym $mod+period layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+F floating toggle
+#bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 # open up this shortcut to use wih Handy
 #bindsym $mod+space focus mode_toggle
+bindsym $mod+F focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -217,6 +219,9 @@ set $ws11 "A"
 set $wsC "C"
 set $ws13 "O"
 set $wsT "T"
+
+set $wsR "R"
+set $wsW "W"
 #""
 set $ws15 "M"
 set $wsSteam "G"
@@ -262,7 +267,9 @@ bindsym $mod+c workspace $wsC; exec ~/.config/i3/focusOrStart.sh "crx_kjbdgfilnf
 bindsym $mod+Shift+c move container to workspace $wsC; mode "default"
 
 # SkedPal 
-bindsym $mod+h workspace $wsH; exec ~/.config/i3/focusOrStart.sh "crx_gnoglfpdikbdaneajmdajhlcfijpolel"
+#bindsym $mod+h workspace $wsH; exec ~/.config/i3/focusOrStart.sh "crx_gnoglfpdikbdaneajmdajhlcfijpolel"
+# Todoist
+bindsym $mod+h workspace $wsH; exec ~/.config/i3/focusOrStart.sh "crx_dlgohinmglaoopaiplliaecdpmnepmga"
 bindsym $mod+Shift+h move container to workspace $wsH; mode "default"
 
 # Zen
@@ -296,7 +303,7 @@ mode $mode_ws {
     bindsym Escape mode "default"
 
 }
-bindsym $mod+shift+w mode $mode_ws
+bindsym $mod+x mode $mode_ws
 
 #for_window [class="Brave Web Browser"] move container to workspace $ws6
 #for_window [class="Alacritty"] move container to workspace $ws14
@@ -348,6 +355,10 @@ bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
+
+bindsym $mod+r workspace number $wsR
+bindsym $mod+w workspace number $wsW
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
@@ -360,6 +371,8 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+bindsym $mod+Shift+R move container to workspace number $wsR
+bindsym $mod+Shift+W move container to workspace number $wsW
 # reload the configuration file
 bindsym $mod+Shift+J reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -418,7 +431,7 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-    bindsym $mod+Shift+R mode "resize"
+    bindsym $mod+Shift+X mode "resize"
 
 set $scratchpad-size             1920 1060
 # Show the next scratchpad window or hide the focused scratchpad window.
@@ -462,9 +475,11 @@ exec_always sleep 2
   set $s1 "eDP"
 set_from_resource $s2 DISPLAY_H "DisplayPort-8"
 
-set_from_resource $s3 DISPLAY_V "DisplayPort-2"
+set_from_resource $s3 DISPLAY_V "DisplayPort-3"
+
+set_from_resource $s4 DISPLAY_X "DisplayPort-1"
 #set $s2 < exec ~/dotfiles/scripts/autorandr-update/get_monitor_value.sh -H
-  set $s4 "DisplayPort-1"
+#  set $s4 "DisplayPort-1"
    #set $s2 "DisplayPort-7"
 # set $s3 "DisplayPort-3"
 
@@ -487,18 +502,18 @@ workspace $ws8 output $s3
 workspace $ws9 output $s3
 workspace $ws10 output $s3
 
-workspace $wsT output $s4
 
+workspace $wsW output $s2
+workspace $wsR output $s2
 
-
-workspace $wsC output $s3
+workspace $wsC output $s4
 workspace $wsT output $s2
 
 #set $ws15 "M"
 workspace $wsSteam output $s2
 workspace $wsS output $s3
 #"󰓓"
-workspace $wsH output $s3
+workspace $wsH output $s4
 #set $wsG "G"
 workspace $wsN output $s2 
 #""
